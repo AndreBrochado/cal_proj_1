@@ -20,4 +20,8 @@ string User::returnName(){
 	return name;
 };
 
+int User::returnID(){
+		return ID;
+	};
+
 

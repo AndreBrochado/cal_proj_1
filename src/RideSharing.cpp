@@ -21,12 +21,13 @@ int main(){
 
 	gv->rearrange();
 
+	App application;
 
-	User u1 = User("Bruno","Regua");
-	//Hora teste = Hora(20,30);
+	application.AddUser("Bruno", "porto");
+	User* u = new User("Bruno" , "porto");
+	application.AddCar(*u, 5, "adsk", "coisa");
 
-	//u1.setArrivalTime(teste);
-	//cout << u1.returnArrivalTime() << endl;
+
 
 	getchar();
 

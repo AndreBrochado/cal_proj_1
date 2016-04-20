@@ -1,0 +1,44 @@
+/*
+ * Map.h
+ *
+ *  Created on: 16/04/2016
+ *      Author: Inês
+ */
+
+#ifndef MAP_H_
+#define MAP_H_
+
+#include "graph.h"
+#include "Road.h"
+#include "Crossroad.h"
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <map>
+
+typedef unsigned int uint;
+
+class Road;
+
+/**
+* Represents an RoadMap
+*/
+class RoadMap : protected Graph<Crossroad>
+{
+private:
+	map<uint, Crossroad> crossRoads;
+	map<uint, Road> roads;
+
+	void readNodesFile(const std::string& fnodes);
+	void readRoadsFile(const std::string& froads);
+	void readSubRoadsFile(const std::string& fsubroads);
+public:
+    RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads); ///< Constructor
+    void viewMap();
+    ~RoadMap(); ///< Destructor
+
+};
+
+#endif /* SRC_MAP_H_ */

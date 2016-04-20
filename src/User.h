@@ -13,6 +13,15 @@ public:
 	string returnName();
 	string returnAddress();
 	string returnDestination();
+	int returnID();
+
+
+	friend bool operator==(const User &u1,const User &u2){
+		if(u1.name == u2.name){
+			return true;
+		}
+		return false;
+	}
 };
 
 
