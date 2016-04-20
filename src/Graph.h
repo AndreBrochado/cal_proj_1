@@ -42,7 +42,7 @@ public:
 template <class T>
 void Vertex<T>::resetPathAndDist(){
 	dist = infinity;
-	path = NULL;
+	path = 0;
 }
 
 template <class T>
@@ -83,7 +83,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 }
 
 template <class T>
-Vertex<T>::Vertex(T in): info(in), visited(false), indegree(0), dist(infinity), path(NULL){}
+Vertex<T>::Vertex(T in): info(in), visited(false), indegree(0), dist(infinity), path(0){}
 
 template <class T>
 T Vertex<T>::getInfo() const {
@@ -475,7 +475,7 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 
 	res.push_back(v->info);
 
-	while(v->path != NULL){
+	while(v->path != 0){
 		v = v->path;
 		res.push_back(v->info);
 	}

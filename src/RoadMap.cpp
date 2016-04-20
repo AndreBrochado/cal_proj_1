@@ -29,6 +29,16 @@ void RoadMap::readNodesFile(const std::string& fnodes){
 		ss << str;
 		ss >> id >> lixo >> lat_d >> lixo >> lon_d >> lixo >> lon_r >> lixo >> lat_r;
 
+		if(lat_d < latitude_min)
+			latitude_min = lat_d;
+		if(lat_d > latitude_max)
+			latitude_max = lat_d;
+
+		if(lon_d < longitude_min)
+			longitude_min = lon_d;
+		if(lon_d > longitude_max)
+			longitude_max = lon_d;
+
 		Crossroad c(lat_d, lon_d, lon_r, lat_r);
 		crossRoads.insert(std::pair<uint,Crossroad>(id, c));
 
@@ -112,12 +122,45 @@ void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 
 RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads){
 
+	latitude_min = 180;
+	longitude_min = 180;
+	longitude_max = -180;
+	latitude_max = -180;
+
 	readNodesFile(fnodes);
 	cout << this->crossRoads.size() << " nodes loaded" << endl;
-	readRoadsFile(froads);
+	//readRoadsFile(froads);
 	cout << this->roads.size() << " roads loaded" << endl;
-	readSubRoadsFile(fsubroads);
+	//readSubRoadsFile(fsubroads);
 	cout << " edges loaded" << endl;
+
+	cout << "latitude_min: " << latitude_min << endl;
+	cout << "latitude_max: " << latitude_max << endl;
+	cout << "longitude_min: " << longitude_min << endl;
+	cout << "longitude_max: " << longitude_max << endl;
+
+}
+
+void RoadMap::viewMap(){
+	gv = new GraphViewer(1200, 697, false);
+
+	//Colocar a imagem “background.jpg” como fundo
+	gv->setBackground("background.jpg");
+	gv->createWindow(1200, 697);
+
+	gv->defineVertexColor("blue");
+	gv->defineEdgeColor("black");
+
+	map<uint, Crossroad>::iterator it = crossRoads.begin();
+	map<uint, Crossroad>::iterator ite = crossRoads.end();
+
+
+	while(it != ite){
+		gv->addNode(it->first,1200*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,697*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min));
+		it++;
+	}
+
+	gv->rearrange();
 }
 
 RoadMap::~RoadMap(){}
