@@ -42,7 +42,7 @@ void RoadMap::readNodesFile(const std::string& fnodes){
 		Crossroad c(lat_d, lon_d, lon_r, lat_r);
 		crossRoads.insert(std::pair<uint,Crossroad>(id, c));
 
-		this->addVertex(c);
+		this->addVertex(id);
 
 	}
 	nodes.close();
@@ -108,10 +108,11 @@ void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 
 		uint dist = c1->getDist(*c2);
 
-		this->addEdge(*c1, *c2, dist);
+		this->addEdge(id_node1, id_node2, dist);
 
 		if(r->isTwoWay()){
-			this->addEdge(*c2, *c1, dist);
+			this->addEdge(id_node2, id_node1, dist);
+			i++;
 		}
 		i++;
 	}
@@ -151,14 +152,33 @@ void RoadMap::viewMap(){
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
 
-	map<uint, Crossroad>::iterator it = crossRoads.begin();
-	map<uint, Crossroad>::iterator ite = crossRoads.end();
+	{
+		map<uint, Crossroad>::iterator it = crossRoads.begin();
+		map<uint, Crossroad>::iterator ite = crossRoads.end();
 
-
-	while(it != ite){
-		gv->addNode(it->first,1200*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,697*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min));
-		it++;
+		while(it != ite){
+			gv->addNode(it->first,1200*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,697*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min));
+			gv->setVertexSize(it->first, 10);
+			gv->setVertexLabel(it->first,".");
+			it++;
+		}
 	}
+
+	/*{
+		vector<Vertex<int*> >::iterator it = vertexSet.begin();
+		vector<Vertex<int*> >::iterator ite = vertexSet.end();
+
+		while(it != ite){
+			vector<Edge<int> >::iterator it2 = it->adj.begin();
+			vector<Edge<int> >::iterator ite2 = it->adj.end();
+
+			while(it2 != ite2){
+
+			}
+
+			it++;
+		}
+	}*/
 
 	gv->rearrange();
 }

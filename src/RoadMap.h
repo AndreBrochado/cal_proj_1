@@ -26,7 +26,7 @@ class Road;
 /**
 * Represents an RoadMap
 */
-class RoadMap : protected Graph<Crossroad>
+class RoadMap : protected Graph<uint>
 {
 private:
 	map<uint, Crossroad> crossRoads;
