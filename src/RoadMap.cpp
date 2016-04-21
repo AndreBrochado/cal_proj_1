@@ -7,6 +7,7 @@
 
 #include "RoadMap.h"
 
+
 void RoadMap::readNodesFile(const std::string& fnodes){
 	std::ifstream nodes;
 	string str;
@@ -39,10 +40,11 @@ void RoadMap::readNodesFile(const std::string& fnodes){
 		if(lon_d > longitude_max)
 			longitude_max = lon_d;
 
-		Crossroad c(lat_d, lon_d, lon_r, lat_r);
+		Crossroad c(id, lat_d, lon_d, lon_r, lat_r);
+
 		crossRoads.insert(std::pair<uint,Crossroad>(id, c));
 
-		this->addVertex(id);
+		this->addVertex(c);
 
 	}
 	nodes.close();
@@ -108,10 +110,12 @@ void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 
 		uint dist = c1->getDist(*c2);
 
-		this->addEdge(id_node1, id_node2, dist);
+		if(!this->addEdge(*c1, *c2, dist))
+			cerr << "Edge ups..." << id_node1 << " " << id_node2 << endl;
 
 		if(r->isTwoWay()){
-			this->addEdge(id_node2, id_node1, dist);
+			if(!this->addEdge(*c2, *c1, dist))
+						cerr << "Edge ups..." << id_node2 << " " << id_node1 << endl;
 			i++;
 		}
 		i++;
@@ -130,10 +134,12 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 
 	readNodesFile(fnodes);
 	cout << this->crossRoads.size() << " nodes loaded" << endl;
-	//readRoadsFile(froads);
+	readRoadsFile(froads);
 	cout << this->roads.size() << " roads loaded" << endl;
-	//readSubRoadsFile(fsubroads);
+	readSubRoadsFile(fsubroads);
 	cout << " edges loaded" << endl;
+
+	floydWarshallShortestPath();
 
 	cout << "latitude_min: " << latitude_min << endl;
 	cout << "latitude_max: " << latitude_max << endl;
@@ -143,11 +149,13 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 }
 
 void RoadMap::viewMap(){
-	gv = new GraphViewer(1200, 697, false);
+	gv = new GraphViewer(1200, 1200, false);
+	uint width = 1200;
+	uint height = 1200;
 
 	//Colocar a imagem “background.jpg” como fundo
-	gv->setBackground("background.jpg");
-	gv->createWindow(1200, 697);
+	//gv->setBackground("background.jpg");
+	gv->createWindow(width, height);
 
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
@@ -157,28 +165,12 @@ void RoadMap::viewMap(){
 		map<uint, Crossroad>::iterator ite = crossRoads.end();
 
 		while(it != ite){
-			gv->addNode(it->first,1200*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,697*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min));
+			gv->addNode(it->first,width*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
 			gv->setVertexSize(it->first, 10);
-			gv->setVertexLabel(it->first,".");
+			gv->setVertexLabel(it->first, ".");
 			it++;
 		}
 	}
-
-	/*{
-		vector<Vertex<int*> >::iterator it = vertexSet.begin();
-		vector<Vertex<int*> >::iterator ite = vertexSet.end();
-
-		while(it != ite){
-			vector<Edge<int> >::iterator it2 = it->adj.begin();
-			vector<Edge<int> >::iterator ite2 = it->adj.end();
-
-			while(it2 != ite2){
-
-			}
-
-			it++;
-		}
-	}*/
 
 	gv->rearrange();
 }

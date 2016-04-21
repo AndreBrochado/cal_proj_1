@@ -11,12 +11,13 @@
 #include <math.h>
 
 class Crossroad{
+	unsigned int id;
 	float latitude_in_degrees;
 	float longitude_in_degrees;
 	float longitude_in_radians;
 	float latitude_in_radians;
 public:
-	Crossroad(float lat_d, float lon_d, float lon_r, float lat_r): latitude_in_degrees(lat_d),
+	Crossroad(unsigned int id, float lat_d, float lon_d, float lon_r, float lat_r): id(id), latitude_in_degrees(lat_d),
 				longitude_in_degrees(lon_d), longitude_in_radians(lon_r), latitude_in_radians(lat_r){}
 
 	float getLatitudeInDegrees() const {
@@ -36,10 +37,8 @@ public:
 	}
 
 	bool operator == (const Crossroad &c2) const{
-		return (latitude_in_degrees == c2.latitude_in_degrees &&
-		longitude_in_degrees == c2.longitude_in_degrees &&
-		longitude_in_radians == c2.longitude_in_radians &&
-		latitude_in_radians == c2.latitude_in_radians);
+
+		return id == c2.id;
 	}
 
 	int getDist(Crossroad c2){
