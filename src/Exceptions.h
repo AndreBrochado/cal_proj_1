@@ -12,6 +12,9 @@ class FileReadingError{
 
 };
 
+class WrongFileParameters{
+};
+
 
 
 #endif /* SRC_EXCEPTIONS_H_ */

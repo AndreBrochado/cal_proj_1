@@ -8,6 +8,7 @@ int User::ID = 0;
 User::User(string name,string address){
 	this->name = name;
 	this->address = address;
+	userID = ID;
 	ID++;
 
 }
@@ -25,3 +26,6 @@ int User::returnID(){
 	};
 
 
+vector <Car> User::getVehicles(){
+return vehicles;
+};

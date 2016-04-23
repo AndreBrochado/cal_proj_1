@@ -3,6 +3,7 @@
 
 class User{
 	static int ID;
+	int userID;
 	string name, address, destination;
 	vector <User> familiar; //TODO: o que e isto?
 	vector <Car> vehicles;
@@ -13,15 +14,32 @@ public:
 	string returnName();
 	string returnAddress();
 	string returnDestination();
+	vector <Car> getVehicles();
 	int returnID();
+	void print(ostream &out) const {};
 
 
 	friend bool operator==(const User &u1,const User &u2){
-		if(u1.name == u2.name){
+		if(u1.userID== u2.userID){
 			return true;
 		}
 		return false;
 	}
+
+	friend ostream& operator<<(ostream& os, const User& u)
+	{
+		if ( !u.vehicles.empty()){
+			for (unsigned i = 0; i < u.vehicles.size(); i++){
+			os << u.name << " @" << u.address << "--"<< u.vehicles[i] << endl;
+			}
+
+		}
+		else {
+			os << u.name << " @" << u.address <<endl;
+		}
+	    return os;
+	}
+
 };
 
 

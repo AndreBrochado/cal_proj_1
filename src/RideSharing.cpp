@@ -17,10 +17,13 @@ int main(){
 			} catch(FileReadingError &e) {
 				cout << "Error reading file.\n";
 			}
+	vector <User*> vec = application.getUsers();
+	for (unsigned z = 0; z < vec.size(); z++){
+		cout << (*vec[z]);
+	};
 
 	//Teste GraphViewer
 	RoadMap rd("Nodes.csv","Roads.csv","Subroads.csv");
-
 	list<unsigned int>mustPass;
 
 	getchar();
@@ -35,12 +38,6 @@ int main(){
 	rd.bestPath(1367705879, 1370572294, mustPass);
 
 	getchar();
-	getchar();
 
 	return 0;
 }
-
-
-
-
-
