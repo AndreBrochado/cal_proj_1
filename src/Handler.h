@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <windows.h>
+#include <utility>
 #include "Exceptions.h"
 
 
@@ -12,3 +13,4 @@ using namespace std;
 
 class App;
 
+void RideHandler(App &a);

@@ -1,7 +1,7 @@
 #include "RoadMap.h"
 #include "App.h"
+#include "Handler.h"
 #include <iomanip>
-
 using namespace std;
 
 int main(){
@@ -16,11 +16,32 @@ int main(){
 			ReadData(application, txtfile);
 			} catch(FileReadingError &e) {
 				cout << "Error reading file.\n";
+				return 1;
 			}
-	vector <User*> vec = application.getUsers();
-	for (unsigned z = 0; z < vec.size(); z++){
-		cout << (*vec[z]);
-	};
+			int n, counter = 0;
+				do{
+					do{
+						if (counter != 0){
+							system("cls");
+							cout << "Introduziu uma opcao invalida!\n" << endl;
+						}
+						cout << setw(2) << "1" << "- placeholder" << endl;
+						cout << setw(2) << "0" << "- Sair do programa" << endl;
+
+						cout << "Introduza um numero: ";
+						cin >> n;
+						counter ++;
+					}while( (n < 0) || (n > 2));
+					counter = 0;
+
+					switch(n){
+					case 1:
+						RideHandler(application);
+						break;
+					case 0:
+						return 0;
+					}
+				}while(1);
 
 	//Teste GraphViewer
 	RoadMap rd("Nodes.csv","Roads.csv","Subroads.csv");
