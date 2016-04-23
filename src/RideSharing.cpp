@@ -6,19 +6,17 @@ using namespace std;
 
 int main(){
 
+
 	string txtfile;
 	App application;
 
-
-	cout << "Introduza nome do ficheiro" << endl;
+	cout << "Introduce filename:" << endl;
 	cin >> txtfile;
-
-	try{
-		ReadData(application, txtfile);
-	} catch(ErroLeituraFicheiro &e) {
-		cout << "Ocorreu um erro a ler o ficheiro.\n";
-		return 1;
-	}
+		try{
+			ReadData(application, txtfile);
+			} catch(FileReadingError &e) {
+				cout << "Error reading file.\n";
+			}
 
 	//Teste GraphViewer
 	RoadMap rd("Nodes.csv","Roads.csv","Subroads.csv");
@@ -27,14 +25,6 @@ int main(){
 
 
 
-/*
-
-*/
-	/*
-	application.AddUser("Bruno", "porto");
-	User* u = new User("Bruno" , "porto");
-	application.AddCar(*u, 5, "adsk", "coisa");
-*/
 	getchar();
 
 	return 0;
