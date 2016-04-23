@@ -48,6 +48,10 @@ public:
 	int getDist() const;
 	int getIndegree() const;
 
+	vector<Edge<T>  > getAdj(){
+			return adj;
+	}
+
 	bool operator<(const Vertex<T> vertex);
 
 	Vertex* path;
@@ -125,8 +129,14 @@ class Edge {
 	double weight;
 public:
 	Edge(Vertex<T> *d, double w);
+
+	Vertex<T>* getDest() const {
+		return dest;
+	}
+
 	friend class Graph<T>;
 	friend class Vertex<T>;
+	friend class RoadMap;
 };
 
 template <class T>
@@ -142,6 +152,7 @@ Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
  */
 template <class T>
 class Graph {
+protected:
 	vector<Vertex<T> *> vertexSet;
 	void dfs(Vertex<T> *v, vector<T> &res) const;
 

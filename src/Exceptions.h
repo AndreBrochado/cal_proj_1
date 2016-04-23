@@ -8,7 +8,7 @@
 #ifndef SRC_EXCEPTIONS_H_
 #define SRC_EXCEPTIONS_H_
 
-class ErroLeituraFicheiro{
+class FileReadingError{
 
 };
 

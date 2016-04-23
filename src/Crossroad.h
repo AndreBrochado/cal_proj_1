@@ -55,6 +55,10 @@ public:
 
 		return R * c;
 	}
+
+	unsigned int getId() const {
+		return id;
+	}
 };
 
 

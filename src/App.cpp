@@ -10,10 +10,45 @@ void ReadData(App &a , string filename)
 	in.open(file.c_str(), ios::in);
 	if (in.good())
 	{
-		cout << "didilydun";
+		while (in.good()){
+					string dummy;
+					string name, adress, licensePlate, brand;
+					int capacity;
+
+					getline(in, dummy, '/');
+
+					if( dummy == "-"){
+						getline(in, name, '_');
+						cout << name << endl;
+						getline(in, adress, '\n');
+						cout << adress << endl;
+
+
+					}
+
+					if( dummy == "*"){
+						getline(in, dummy, '_');
+						capacity = atoi(dummy.c_str());
+						cout << capacity << endl;
+						getline(in, licensePlate, '_');
+						cout << licensePlate<< endl;
+						getline(in, brand, '\n');
+						cout << brand<< endl;
+					}
+/*
+					if (!in.eof()){
+						in.ignore(1000, '\n');
+					}
+*/
+					if (in.eof()){
+						return;
+					}
+
+		}
 	}
 	if (in.fail())
-				throw ErroLeituraFicheiro();
+				throw FileReadingError();
+
 
 	/*
 		if (in.peek() != std::ifstream::traits_type::eof())

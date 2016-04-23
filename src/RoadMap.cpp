@@ -83,7 +83,7 @@ void RoadMap::readRoadsFile(const std::string& froads){
 
 void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 	std::ifstream subroads;
-	int i;
+	int i = 0;
 
 	subroads.open(fsubroads.c_str());
 	if(!subroads.is_open()){
@@ -115,7 +115,7 @@ void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 
 		if(r->isTwoWay()){
 			if(!this->addEdge(*c2, *c1, dist))
-						cerr << "Edge ups..." << id_node2 << " " << id_node1 << endl;
+				cerr << "Edge ups..." << id_node2 << " " << id_node1 << endl;
 			i++;
 		}
 		i++;
@@ -139,7 +139,7 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 	readSubRoadsFile(fsubroads);
 	cout << " edges loaded" << endl;
 
-	floydWarshallShortestPath();
+	//floydWarshallShortestPath();
 
 	cout << "latitude_min: " << latitude_min << endl;
 	cout << "latitude_max: " << latitude_max << endl;
@@ -149,25 +149,43 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 }
 
 void RoadMap::viewMap(){
-	gv = new GraphViewer(1200, 1200, false);
-	uint width = 1200;
-	uint height = 1200;
+	uint width = 345;
+	uint height = 480;
+
+	gv = new GraphViewer(width, height, false);
 
 	//Colocar a imagem “background.jpg” como fundo
-	//gv->setBackground("background.jpg");
+	gv->setBackground("background.jpg");
+
 	gv->createWindow(width, height);
 
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
+	gv->defineEdgeCurved(false);
 
 	{
-		map<uint, Crossroad>::iterator it = crossRoads.begin();
-		map<uint, Crossroad>::iterator ite = crossRoads.end();
+		vector<Vertex<Crossroad> *>::iterator it = vertexSet.begin();
+		vector<Vertex<Crossroad> *>::iterator ite = vertexSet.end();
 
 		while(it != ite){
-			gv->addNode(it->first,width*(it->second.getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*(it->second.getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
-			gv->setVertexSize(it->first, 10);
-			gv->setVertexLabel(it->first, ".");
+			gv->addNode((*it)->getInfo().getId(),width*((*it)->getInfo().getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*((*it)->getInfo().getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
+			gv->setVertexSize((*it)->getInfo().getId(), 10);
+			gv->setVertexLabel((*it)->getInfo().getId(), ".");
+			it++;
+		}
+	}
+
+	{
+		vector<Vertex<Crossroad> *>::iterator it = vertexSet.begin();
+		vector<Vertex<Crossroad> *>::iterator ite = vertexSet.end();
+		int id = 0;
+
+		while(it != ite){
+			vector<Edge<Crossroad> > edge = (*it)->getAdj();
+			for (unsigned int i = 0; i < (*it)->getAdj().size(); ++i) {
+				gv->addEdge(id, (*it)->getInfo().getId(), edge[i].getDest()->getInfo().getId(), EdgeType::DIRECTED);
+				id++;
+			}
 			it++;
 		}
 	}
