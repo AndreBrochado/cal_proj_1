@@ -2,7 +2,7 @@
  * Map.h
  *
  *  Created on: 16/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #ifndef MAP_H_

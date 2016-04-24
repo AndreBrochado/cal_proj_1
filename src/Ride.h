@@ -2,7 +2,7 @@
  * Ride.h
  *
  *  Created on: 20/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #ifndef SRC_RIDE_H_

@@ -2,7 +2,7 @@
  * Map.cpp
  *
  *  Created on: 16/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #include "RoadMap.h"
@@ -101,7 +101,7 @@ void RoadMap::readSubRoadsFile(const std::string& fsubroads){
 		ss << str;
 		ss >> id_road >> lixo >> id_node1 >> lixo >> id_node2;
 
-		//TODO Falta conferir se os id estão em crossroads/roads.
+		//TODO Falta conferir se os id estï¿½o em crossroads/roads.
 		Crossroad* c1 = &crossRoads.find(id_node1)->second;
 		Crossroad* c2 = &crossRoads.find(id_node2)->second;
 		Road* r = &roads.find(id_road)->second;
@@ -156,7 +156,7 @@ void RoadMap::viewMap(){
 
 	gv = new GraphViewer(width, height, false);
 
-	//Colocar a imagem “background.jpg” como fundo
+	//Colocar a imagem ï¿½background.jpgï¿½ como fundo
 	gv->setBackground("background.jpg");
 
 	gv->createWindow(width, height);

@@ -2,7 +2,7 @@
  * Ride.cpp
  *
  *  Created on: 20/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #include "Ride.h"

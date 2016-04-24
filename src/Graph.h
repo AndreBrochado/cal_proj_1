@@ -45,7 +45,7 @@ public:
 	T getInfo() const;
 	void setInfo(T info);
 
-	int getDist() const;
+	double getDist() const;
 	int getIndegree() const;
 
 	vector<Edge<T>  > getAdj(){
@@ -81,7 +81,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 	return false;
 }
 
-//atualizado pelo exercício 5
+//atualizado pelo exercicio 5
 template <class T>
 Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
@@ -101,7 +101,7 @@ T Vertex<T>::getInfo() const {
 }
 
 template <class T>
-int Vertex<T>::getDist() const {
+double Vertex<T>::getDist() const {
 	return this->dist;
 }
 
@@ -450,7 +450,7 @@ vector<T> Graph<T>::topologicalOrder() {
 	//vetor com o resultado da ordenacao
 	vector<T> res;
 
-	//verificar se é um DAG
+	//verificar se ï¿½ um DAG
 	if( getNumCycles() > 0 ) {
 		cout << "Ordenacao Impossivel!" << endl;
 		return res;
@@ -665,7 +665,7 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 				w->dist = v->dist + v->adj[i].weight;
 				w->path = v;
 
-				//se já estiver na lista, apenas a actualiza
+				//se jï¿½ estiver na lista, apenas a actualiza
 				if(!w->processing)
 				{
 					w->processing = true;
@@ -743,7 +743,7 @@ void Graph<T>::floydWarshallShortestPath() {
 		for(unsigned int i = 0; i < vertexSet.size(); i++)
 			for(unsigned int j = 0; j < vertexSet.size(); j++)
 			{
-				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem convém considerar essa soma
+				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem convï¿½m considerar essa soma
 				if(W[i][k] == INT_INFINITY || W[k][j] == INT_INFINITY)
 					continue;
 

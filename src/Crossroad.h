@@ -2,7 +2,7 @@
  * Crossroad.h
  *
  *  Created on: 16/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #ifndef SRC_CROSSROAD_H_
@@ -53,7 +53,7 @@ public:
 		        sin(deltaLon/2) * sin(deltaLon/2);
 		float c = 2 * atan2(sqrt(a), sqrt(1-a));
 
-		return R * c;
+		return (int) (R * c);
 	}
 
 	unsigned int getId() const {

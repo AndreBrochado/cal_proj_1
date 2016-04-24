@@ -2,7 +2,7 @@
  * RideCompleted.h
  *
  *  Created on: 20/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #ifndef SRC_RIDECOMPLETED_H_

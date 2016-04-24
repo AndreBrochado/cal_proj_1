@@ -10,16 +10,16 @@ void ReadData(App &a, string filename) {
 	if (in.good()) {
 		while (in.good()) {
 			string dummy;
-			string name, adress, licensePlate, brand;
+			string name, address, licensePlate, brand;
 			int capacity;
 
 			getline(in, dummy, '-');
 
 			if (dummy == "<") {
 				getline(in, name, '_');
-				getline(in, adress, '>');
+				getline(in, address, '>');
 
-				a.AddUser(name, adress);
+				a.AddUser(name, address);
 			}
 
 			if (dummy == ">") {
@@ -47,8 +47,8 @@ void ReadData(App &a, string filename) {
 	in.close();
 }
 
-void App::AddUser(string name, string adress){
-	User* u1 = new User(name,adress);
+void App::AddUser(string name, string address){
+	User* u1 = new User(name,address);
 	users.push_back(u1);
 };
 

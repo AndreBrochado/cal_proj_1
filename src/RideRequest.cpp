@@ -2,7 +2,7 @@
  * RideRequest.cpp
  *
  *  Created on: 20/04/2016
- *      Author: Inês
+ *      Author: Ines
  */
 
 #include "RideRequest.h"
