@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Crossroad.h"
+#include <windows.h>
 
 class Road{
 private:
@@ -28,7 +29,12 @@ public:
 	}
 
 	void addCrossroad(Crossroad* c){
-		crossroads.push_back(c);
+		if(crossroads.empty() || crossroads.back()->getId() != c->getId())
+			crossroads.push_back(c);
+	}
+
+	vector<Crossroad*> getCrossroads(){
+		return crossroads;
 	}
 };
 

@@ -41,19 +41,19 @@ public:
 		return id == c2.id;
 	}
 
-	int getDist(Crossroad c2){
+	double getDist(Crossroad c2){
 		int R = 6371000; // metres
-		float lat1 = latitude_in_radians;
-		float lat2 = c2.latitude_in_radians;
-		float deltaLat = lat2 - lat1;
-		float deltaLon = c2.longitude_in_radians - longitude_in_radians;
+		double lat1 = latitude_in_radians;
+		double lat2 = c2.latitude_in_radians;
+		double deltaLat = lat2 - lat1;
+		double deltaLon = c2.longitude_in_radians - longitude_in_radians;
 
-		float a = sin(deltaLat/2) * sin(deltaLat/2) +
+		double a = sin(deltaLat/2) * sin(deltaLat/2) +
 		        cos(lat1) * cos(lat2) *
 		        sin(deltaLon/2) * sin(deltaLon/2);
-		float c = 2 * atan2(sqrt(a), sqrt(1-a));
+		double c = 2 * atan2(sqrt(a), sqrt(1-a));
 
-		return (int) (R * c);
+		return (R * c);
 	}
 
 	unsigned int getId() const {

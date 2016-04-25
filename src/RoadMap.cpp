@@ -146,13 +146,16 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 	cout << "longitude_min: " << longitude_min << endl;
 	cout << "longitude_max: " << longitude_max << endl;
 
+	map<uint, Road>::iterator it = roads.begin();
+	map<uint, Road>::iterator ite = roads.end();
+
 }
 
 void RoadMap::viewMap(){
-	//	uint width = 345;
-	//	uint height = 480;
-	uint width = 800;
-	uint height = 1113;
+	//	uint width = 800;
+	//	uint height = 1113;
+	uint width = 1360;
+	uint height = 1300;
 
 	gv = new GraphViewer(width, height, false);
 
@@ -196,7 +199,9 @@ void RoadMap::viewMap(){
 }
 
 void  RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass){
+	double minDist = INT_MAX;
 	vector<Crossroad> path;
+	path.push_back(crossRoads.find(id_src)->second);
 
 	gv->setVertexColor(id_src, "red");
 	gv->setVertexSize(id_src, 20);
@@ -209,97 +214,75 @@ void  RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass){
 		gv->setVertexSize(*it, 20);
 	}
 
-	Crossroad c = crossRoads.find(id_src)->second;
-	this->dijkstraShortestPath(c);
-
-	uint minDist = INT_MAX;
-	list<uint>::iterator minIt;
-
-	for(list<uint>::iterator it = mustPass.begin(); it != mustPass.end();it++){
-		c = crossRoads.find(*it)->second;
-		uint dist = this->getVertex(c)->getDist();
-
-		if(dist < minDist){
-			minDist = dist;
-			minIt = it;
+	getchar();
+	if(bestPath(id_src, id_dest, mustPass, path, 0, minDist)){
+		cout << minDist <<"m "<< endl;
+		for (unsigned int i = 1; i < path.size(); ++i) {
+			gv->setVertexColor(path[i].getId(),"yellow");
+			gv->rearrange();
 		}
 	}
-
-	gv->setVertexColor(*minIt, "yellow");
-	gv->rearrange();
-
-	c = crossRoads.find(id_src)->second;
-	Crossroad c2 = crossRoads.find(*minIt)->second;
-
-	path = getPath(c,c2);
-
-	for (unsigned int i = 1; i < path.size()-1; ++i) {
-		gv->setVertexColor(path[i].getId(), "yellow");
-		gv->setVertexSize(path[i].getId(), 10);
-	}
-	gv->rearrange();
-
-	mustPass.erase(minIt);
-	getchar();
-	bestPath(path.back().getId(), id_dest, mustPass, path);
+	else
+		cout << "Caminho impossível\n";
 }
 
-void RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass, vector<Crossroad> &path){
+bool RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass, vector<Crossroad> &path, double distSoFar, double &minDist){
+	Crossroad src = crossRoads.find(id_src)->second;
+	map<double,vector <Crossroad> > possiblePaths;
+	vector <Crossroad> path_tmp = path;
+	int count = 0;
 
-	Crossroad c = crossRoads.find(id_src)->second;
-	Crossroad c2 = crossRoads.find(id_dest)->second;
+	this->dijkstraShortestPath(src);
 
-	this->dijkstraShortestPath(c);
+	if(mustPass.size() == 1){
+		Crossroad dest = crossRoads.find(id_dest)->second;
+		double distTotal = distSoFar + this->getVertex(dest)->getDist();
 
-	if(mustPass.empty()){
-		vector<Crossroad> path_tmp = getPath(c,c2);
-
-		for (unsigned int i = 1; i < path_tmp.size()-1; ++i) {
-			gv->setVertexColor(path_tmp[i].getId(), "yellow");
-		}
-		gv->rearrange();
+		path_tmp = getPath(src,dest);
 
 		path.insert(path.end(),path_tmp.begin()+1,path_tmp.end());
 
-		return;
+		if(distTotal < minDist){
+			count ++;
+			minDist = distTotal;
+			return true;
+		}
+		else
+			return false;
 	}
+	else{
+		for(list<uint>::iterator it = mustPass.begin(); it != mustPass.end();){
+			Crossroad c = crossRoads.find(*it)->second;
+			double dist = this->getVertex(c)->getDist();
 
-	uint minDist = INT_MAX;
-	list<uint>::iterator minIt;
+			if(dist == INT_MAX){
+				return false;
+			}
+			else if(dist == 0){
+				it = mustPass.erase(it);
+			}
+			else{
+				possiblePaths.insert(pair<double,vector <Crossroad> >(dist, getPath(src,c)));
+				it++;
+			}
+		}
 
-	for(list<uint>::iterator it = mustPass.begin(); it != mustPass.end();it++){
-		c = crossRoads.find(*it)->second;
-		uint dist = this->getVertex(c)->getDist();
-
-		if(dist < minDist){
-			minDist = dist;
-			minIt = it;
+		for(map<double,vector <Crossroad> >::iterator it = possiblePaths.begin(); it != possiblePaths.end(); it++){
+			if(distSoFar + it->first < minDist){
+				vector <Crossroad> path_tmp2 = path_tmp;
+				path_tmp2.insert(path_tmp2.end(),it->second.begin()+1,it->second.end());
+				if(bestPath(path_tmp2.back().getId(), id_dest, mustPass, path_tmp2, distSoFar + it->first, minDist)){
+					count ++;
+					path = path_tmp2;
+				}
+			}
 		}
 	}
 
-	if(minDist == INT_MAX){
-		cout << "Not possible!!!" << endl;
-		return;
-	}
-
-	gv->setVertexColor(*minIt, "yellow");
-
-	c = crossRoads.find(id_src)->second;
-	c2 = crossRoads.find(*minIt)->second;
-
-	vector<Crossroad> path_tmp = getPath(c,c2);
-
-	for (unsigned int i = 1; i < path_tmp.size()-1; ++i) {
-		gv->setVertexColor(path_tmp[i].getId(), "yellow");
-		gv->setVertexSize(path_tmp[i].getId(), 10);
-	}
-	gv->rearrange();
-
-	path.insert(path.end(),path_tmp.begin()+1,path_tmp.end());
-
-	mustPass.erase(minIt);
-	getchar();
-	bestPath(path.back().getId(), id_dest, mustPass, path);
+	if(count > 0)
+		return true;
+	else
+		return false;
 }
 
 RoadMap::~RoadMap(){}
