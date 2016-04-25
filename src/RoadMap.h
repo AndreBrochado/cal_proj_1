@@ -48,6 +48,7 @@ public:
     void viewMap();
     void bestPath(uint id_src, uint id_dest, list<uint>mustPass);
     bool bestPath(uint id_src, uint id_dest, list<uint>mustPass, vector<Crossroad> &path, double distSoFar, double &minDist);
+	uint getNodeId(string roadName, double doorNumber);
     ~RoadMap(); ///< Destructor
 };
 

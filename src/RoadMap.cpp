@@ -146,9 +146,6 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 	cout << "longitude_min: " << longitude_min << endl;
 	cout << "longitude_max: " << longitude_max << endl;
 
-	map<uint, Road>::iterator it = roads.begin();
-	map<uint, Road>::iterator ite = roads.end();
-
 }
 
 void RoadMap::viewMap(){
@@ -175,7 +172,7 @@ void RoadMap::viewMap(){
 		while(it != ite){
 			gv->addNode((*it)->getInfo().getId(),width*((*it)->getInfo().getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*((*it)->getInfo().getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
 			gv->setVertexSize((*it)->getInfo().getId(), 5);
-			gv->setVertexLabel((*it)->getInfo().getId(), ".");
+			//gv->setVertexLabel((*it)->getInfo().getId(), ".");
 			it++;
 		}
 	}
@@ -283,6 +280,16 @@ bool RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass, vector<Cro
 		return true;
 	else
 		return false;
+}
+
+uint RoadMap::getNodeId(string roadName, double doorNumber){
+	uint id = -1;
+
+	for (map<uint, Road>::iterator it = roads.begin(); it != roads.end() && id == -1; it++) {
+		id = it->second.getNodeId(roadName, doorNumber);
+	}
+
+	return id;
 }
 
 RoadMap::~RoadMap(){}
