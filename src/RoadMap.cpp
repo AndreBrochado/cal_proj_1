@@ -174,7 +174,7 @@ void RoadMap::viewMap(){
         while(it != ite){
             gv->addNode((*it)->getInfo().getId(),width*((*it)->getInfo().getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*((*it)->getInfo().getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
             gv->setVertexSize((*it)->getInfo().getId(), 5);
-            gv->setVertexLabel((*it)->getInfo().getId(), ".");
+            //gv->setVertexLabel((*it)->getInfo().getId(), ".");
             it++;
         }
     }
@@ -197,7 +197,41 @@ void RoadMap::viewMap(){
     gv->rearrange();
 }
 
-bool RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass, list<uint> &path){
+void RoadMap::insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&mustPass, list<uint> &path){
+
+    Crossroad src = crossRoads.find(srcId)->second;
+    list<uint>::iterator next;
+
+    dijkstraShortestPath(src);
+
+    double minDist = DBL_MAX;
+
+    for (list<uint>::iterator it = mustPass.begin(); it != mustPass.end(); ++it) {
+        Crossroad tmp = crossRoads.find(*it)->second;
+        if(getVertex(tmp)->getDist() < minDist){
+            minDist = getVertex(tmp)->getDist();
+            next = it;
+        }
+    }
+
+    if(*next == newSrc){
+        path.push_back(*next);
+
+        mustPass.erase(next);
+
+    }
+    else{
+        path.push_back(*next);
+
+        mustPass.erase(next);
+
+
+        insertNewSrc(path.back(), destId, newSrc, mustPass, path);
+    }
+
+}
+
+bool RoadMap::insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path){
     Crossroad src = crossRoads.find(id_src)->second;
     list<uint>::iterator next;
 
@@ -221,7 +255,7 @@ bool RoadMap::bestPath(uint id_src, uint id_dest, list<uint>mustPass, list<uint>
 
         mustPass.erase(next);
 
-        bestPath(path.back(), id_dest, mustPass, path);
+        insertNewDest(path.back(), id_dest, mustPass, path);
     }
 
     return true;
@@ -254,46 +288,6 @@ void RoadMap::setNextPoint(list<uint>::iterator startPoint, list<uint>::iterator
 }
 
 bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
-    /*    Crossroad src = crossRoads.find(newSrc)->second;
-
-    list<uint>::iterator it, lastEl, bestDeviation;
-    lastEl = oldPath.end();
-    lastEl--;
-
-    double min = DBL_MAX;
-
-    for(it = oldPath.begin(); it != lastEl; it++){
-        Crossroad tmp = crossRoads.find(*it)->second;
-        dijkstraShortestPath(tmp);
-        if(getVertex(src)->getDist() < min) {
-            min = getVertex(src)->getDist();
-            bestDeviation = it;
-        }
-    }
-
-    bestDeviation++;
-    oldPath.insert(bestDeviation, newSrc);
-
-    bestDeviation--;
-
-    setNextPoint(bestDeviation, lastEl, oldPath);
-
-    {
-        list<uint>::const_iterator it = oldPath.begin();
-        list<uint>::const_iterator ite = oldPath.end();
-
-        while(it != ite){
-            cout << *it << endl;
-            it++;
-        }
-        cout<<"asd"<<endl;
-    }
-
-    visualizePath(oldPath);
-
-    //TODO: validate new path (time and tolerances)
-    return true;*/
-
     list<uint> newPath;
     list<uint> mustPass = oldPath;
     uint src = oldPath.front();
@@ -301,13 +295,52 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
 
     mustPass.pop_front();
     mustPass.pop_back();
-    mustPass.push_back(newSrc);
-    mustPass.push_back(newDest);
 
+    //Test if newSrc is already a point of interest
+    bool newSrcIsInPath = false;
+
+    {
+        list<uint>::const_iterator it = mustPass.begin();
+        list<uint>::const_iterator ite = mustPass.end();
+
+        while(it != ite){
+            if(*it == newSrc)
+                newSrcIsInPath = true;
+
+            it++;
+        }
+
+    }
+
+    if(!newSrcIsInPath && newSrc != src)
+        mustPass.push_back(newSrc);
+
+    //Insert newSrc in path
     newPath.push_back(src);
 
+    insertNewSrc(src, dest, newSrc, mustPass, newPath);
 
-    bestPath(src, dest, mustPass, newPath);
+    //Check if adding newDest is needed
+    bool newDestIsInPath = false;
+
+    {
+        list<uint>::const_iterator it = mustPass.begin();
+        list<uint>::const_iterator ite = mustPass.end();
+
+        while(it != ite){
+            if(*it == newDest)
+                newDestIsInPath = true;
+
+            it++;
+        }
+
+    }
+
+    if(!newDestIsInPath && newDest != dest)
+        mustPass.push_back(newDest);
+
+    //Complete path inserting
+    insertNewDest(newSrc, dest, mustPass, newPath);
 
     oldPath.clear();
 
