@@ -6,27 +6,28 @@
 class User{
 	static int ID;
 	int userID;
-	string name, address, destination;
-	vector <User> familiar; //TODO: o que e isto?
+	string name, address;
 	vector <Car> vehicles;
-	Ride* r;
 public:
-	User();
 	User(string name, string address);
 	void addCar(Car c1);
-	string returnName();
-	string returnAddress();
-	string returnDestination();
 	vector <Car> getVehicles();
-	int returnID();
-	void print(ostream &out) const {};
+
+    int getUserID() const {
+        return userID;
+    }
+    const string &getName() const {
+        return name;
+    }
+    const string &getAddress() const {
+        return address;
+    }
+
+    void print(ostream &out) const {};
 	void setRide(Ride* ride);
 
 	friend bool operator==(const User &u1,const User &u2){
-		if(u1.userID== u2.userID){
-			return true;
-		}
-		return false;
+		return u1.userID == u2.userID;
 	}
 
 	friend ostream& operator<<(ostream& os, const User& u)

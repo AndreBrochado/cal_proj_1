@@ -1,5 +1,6 @@
 #include "App.h"
-
+#include "RideRequest.h"
+#include "RideOffer.h"
 
 
 void ReadData(App &a, string filename) {
@@ -18,7 +19,7 @@ void ReadData(App &a, string filename) {
 				getline(in, name, '_');
 				getline(in, address, '>');
 
-				a.AddUser(name, address);
+				a.addUser(name, address);
 			}
 
 			if (dummy == ">") {
@@ -27,7 +28,7 @@ void ReadData(App &a, string filename) {
 				getline(in, licensePlate, '_');
 				getline(in, brand, '>');
 				User* u = a.getUsers().back();
-				a.AddCar((*u), capacity, licensePlate, brand);
+				a.addCar((*u), capacity, licensePlate, brand);
 
 			}
 
@@ -46,7 +47,7 @@ void ReadData(App &a, string filename) {
 	in.close();
 }
 
-void App::AddUser(string name, string address){
+void App::addUser(string name, string address){
 	User* u1 = new User(name,address);
 	users.push_back(u1);
 };
@@ -60,7 +61,7 @@ vector <Car*> App::getCars(){
 };
 
 
-void App::AddCar(User u, int Capacity, string licensePlate, string brand){
+void App::addCar(User u, int Capacity, string licensePlate, string brand){
 	Car* c1 = new Car(Capacity,licensePlate,brand);
 	for (unsigned i = 0; i < users.size(); i++){
 		if(u ==  (*users[i])){
@@ -69,11 +70,12 @@ void App::AddCar(User u, int Capacity, string licensePlate, string brand){
 	}
 };
 
-void App :: AddRide(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
-	Ride* r1 = new Ride(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
-	for (unsigned j = 0; j < users.size(); j++){
-				if(ID == (*users[j]).returnID()){
-					users[j]->setRide(r1);
-				}
-	}
+void App::addRideRequest(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
+	Ride* r = new RideRequest(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
+	requests.push_back(r);
+};
+
+void App::addRideOffer(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
+    Ride* r = new RideOffer(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
+    requests.push_back(r);
 };

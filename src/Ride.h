@@ -10,12 +10,13 @@
 
 #include <ctime>
 #include <memory>
+#include "RoadMap.h"
 //#include "User.h"
 
 class Ride {
 protected:
 	//Como saber o tempo dispendido
-	//TODO: T arrivalPlace, departurePlace
+	uint departurePlace, arrivalPlace;
 	time_t departureTime, estimatedArrival, departureTolerance, arrivalTolerance;
 	int noSeats;
 public:

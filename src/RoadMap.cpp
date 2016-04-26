@@ -261,32 +261,6 @@ bool RoadMap::insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list
     return true;
 }
 
-
-//TODO: GET BETTER NAME FOR THIS FUNC
-void RoadMap::setNextPoint(list<uint>::iterator startPoint, list<uint>::iterator lastEl, list<uint>& oldPath){
-
-    double min = 1000000;
-    list<uint>::iterator aux, bestNextPoint;
-
-    if(startPoint == lastEl)
-        return;
-
-    for(list<uint>::iterator it = startPoint; it != lastEl;){
-        Crossroad tmp = crossRoads.find(*it)->second;
-
-        dijkstraShortestPath(tmp);
-        for(aux = it++; aux != lastEl; aux++){
-            Crossroad temp = crossRoads.find(*aux)->second;
-            if(getVertex(temp)->getDist() < min) {
-                min = getVertex(temp)->getDist();
-                bestNextPoint = aux;
-            }
-        }
-        oldPath.insert(startPoint, *bestNextPoint);
-        oldPath.erase(bestNextPoint);
-    }
-}
-
 bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
     list<uint> newPath;
     list<uint> mustPass = oldPath;

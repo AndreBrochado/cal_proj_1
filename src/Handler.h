@@ -15,7 +15,7 @@ using namespace std;
 
 class App;
 
-void RideOfferHandler(App &a);
+void createRide(App &a, int offerType);
 
 bool validDay(int year, int month, int day);
 
