@@ -21,6 +21,7 @@ const int BEING_VISITED = 1;
 const int DONE_VISITED = 2;
 const int INT_INFINITY = INT_MAX;
 
+
 /*
  * ================================================================================================
  * Class Vertex
