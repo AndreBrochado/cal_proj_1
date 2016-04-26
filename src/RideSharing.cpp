@@ -23,12 +23,13 @@ int main(){
 					do{
 						if (counter != 0){
 							system("cls");
-							cout << "Introduziu uma opcao invalida!\n" << endl;
+							cout << "You have introduced an invalid option!\n" << endl;
 						}
-						cout << setw(2) << "1" << "- placeholder" << endl;
-						cout << setw(2) << "0" << "- Sair do programa" << endl;
+						cout << setw(2) << "2" << " - Option2wtv" << endl;
+						cout << setw(2) << "1" << " - Offer Ride" << endl;
+						cout << setw(2) << "0" << " - Exit Application" << endl;
 
-						cout << "Introduza um numero: ";
+						cout << "Choose appropriate numerical option: ";
 						cin >> n;
 						counter ++;
 					}while( (n < 0) || (n > 2));
@@ -36,7 +37,7 @@ int main(){
 
 					switch(n){
 					case 1:
-						RideHandler(application);
+						RideOfferHandler(application);
 						break;
 					case 0:
 						return 0;

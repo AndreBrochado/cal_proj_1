@@ -13,4 +13,4 @@ using namespace std;
 
 class App;
 
-void RideHandler(App &a);
+void RideOfferHandler(App &a);

@@ -10,7 +10,7 @@ User::User(string name,string address){
 	this->address = address;
 	userID = ID;
 	ID++;
-
+	this->r = Ride();
 }
 
 void User::addCar(Car c1){
@@ -22,10 +22,15 @@ string User::returnName(){
 };
 
 int User::returnID(){
-		return ID;
-	};
+	return ID;
+};
 
 
 vector <Car> User::getVehicles(){
-return vehicles;
+	return vehicles;
+};
+
+
+void User::setRide(Ride* ride){
+	this->r = *ride;
 };

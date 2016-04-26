@@ -10,7 +10,7 @@
 
 #include <ctime>
 #include <memory>
-#include "User.h"
+//#include "User.h"
 
 class Ride {
 protected:
@@ -19,6 +19,7 @@ protected:
 	time_t departureTime, estimatedArrival, departureTolerance, arrivalTolerance;
 	int noSeats;
 public:
+	Ride(){};
 	Ride(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 	virtual ~Ride();
 

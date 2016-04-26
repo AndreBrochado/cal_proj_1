@@ -1,5 +1,4 @@
 #include "App.h"
-#include "Exceptions.h"
 
 
 
@@ -67,5 +66,14 @@ void App::AddCar(User u, int Capacity, string licensePlate, string brand){
 		if(u ==  (*users[i])){
 			users[i]->addCar(*c1);
 		}
+	}
+};
+
+void App :: AddRide(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
+	Ride* r1 = new Ride(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
+	for (unsigned j = 0; j < users.size(); j++){
+				if(ID == (*users[j]).returnID()){
+					users[j]->setRide(r1);
+				}
 	}
 };
