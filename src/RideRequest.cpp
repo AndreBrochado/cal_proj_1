@@ -7,8 +7,8 @@
 
 #include "RideRequest.h"
 
-RideRequest::RideRequest(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* hitchhiker):
-	Ride(departureTime, estimatedArrival, departureTolerance, arrivalTolerance, noSeats), hitchhiker(hitchhiker){
+RideRequest::RideRequest(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats):
+	Ride(departureTime, estimatedArrival, departureTolerance, arrivalTolerance, noSeats){
 
 }
 

@@ -15,10 +15,10 @@
 
 class RideOffer: public Ride {
 private:
-	User* driver;
+	//User* driver;
 	std::list<Vertex<Crossroad> > route;
 public:
-	RideOffer(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* driver);
+	RideOffer(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 	virtual ~RideOffer();
 };
 
