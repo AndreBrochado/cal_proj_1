@@ -172,7 +172,7 @@ void RoadMap::viewMap(){
 		while(it != ite){
 			gv->addNode((*it)->getInfo().getId(),width*((*it)->getInfo().getLongitudeInDegrees()-longitude_min)/(longitude_max-longitude_min) ,height - (height*((*it)->getInfo().getLatitudeInDegrees()-latitude_min)/(latitude_max-latitude_min)));
 			gv->setVertexSize((*it)->getInfo().getId(), 5);
-			//gv->setVertexLabel((*it)->getInfo().getId(), ".");
+			gv->setVertexLabel((*it)->getInfo().getId(), ".");
 			it++;
 		}
 	}
@@ -224,21 +224,6 @@ void RoadMap::setNextPoint(list<uint>::iterator startPoint, list<uint>::iterator
 bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
 	Crossroad src = crossRoads.find(newSrc)->second;
 
-/*	//Visualize points
- 	list<uint>::iterator it1 = oldPath.begin();
-	list<uint>::iterator ite1 = oldPath.end();
-
-	while(it1 != ite1){
-		gv->setVertexColor(*it1, "yellow");
-		gv->setVertexSize(*it1, 20);
-		it1++;
-	}
-	gv->setVertexColor(newSrc, "orange");
-	gv->setVertexSize(newSrc, 20);
-	gv->setVertexColor(newDest, "red");
-	gv->setVertexSize(newDest, 20);
-	gv->rearrange();*/
-
 	list<uint>::iterator it, lastEl, bestDeviation;
 	lastEl = oldPath.end();
 	lastEl--;
@@ -281,7 +266,7 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
 
 }
 
-uint RoadMap::getNodeId(string roadName, double doorNumber){
+uint RoadMap::getCrossroadIdFromAddress(string roadName, double doorNumber){
 	uint id = -1;
 
 	for (map<uint, Road>::iterator it = roads.begin(); it != roads.end() && id == -1; it++) {
@@ -289,6 +274,58 @@ uint RoadMap::getNodeId(string roadName, double doorNumber){
 	}
 
 	return id;
+}
+
+void RoadMap::visualizePath(const list<uint> &path){
+
+	uint stopNo = 1;
+	list<uint>::const_iterator it = path.begin();
+	list<uint>::const_iterator ite = path.end();
+
+	Crossroad c = crossRoads.find(*it)->second;
+	dijkstraShortestPath(c);
+
+	//Set path source orange
+	gv->setVertexColor(*it, "orange");
+	gv->setVertexSize(*it, 20);
+
+	it++;
+
+	while(it != ite){
+		Sleep(1000);
+
+		dijkstraShortestPath(c);
+
+		Crossroad tmp = crossRoads.find(*it)->second;
+		vector<Crossroad> subPath = getPath(c, tmp);
+		stringstream ss;
+		
+		ss << "Paragem " << stopNo;
+
+		for (uint i = 1; i < subPath.size()-1; ++i) {
+			gv->setVertexColor(subPath[i].getId(), "yellow");
+			gv->setVertexSize(subPath[i].getId(), 10);
+		}
+
+		cout << c.getId() << " " << tmp.getId() << " = " << *it <<endl;
+
+		gv->setVertexColor(*it, "pink");
+		gv->setVertexSize(*it, 20);
+		gv->setVertexLabel(*it, ss.str());
+
+		gv->rearrange();
+		c=tmp;
+
+		stopNo++;
+		it++;
+	}
+
+	//Set path destination red
+	it--;
+	gv->setVertexColor(*it, "red");
+	gv->setVertexLabel(*it, "Destino");
+
+	gv->rearrange();
 }
 
 RoadMap::~RoadMap(){}

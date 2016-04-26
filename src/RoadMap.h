@@ -48,7 +48,8 @@ public:
     void viewMap();
     bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath);
 	void setNextPoint(list<uint>::iterator it, list<uint>::iterator ite, list<uint>& oldPath);
-	uint getNodeId(string roadName, double doorNumber);
+	uint getCrossroadIdFromAddress(string roadName, double doorNumber);
+	void visualizePath(const list<uint> &path);
     ~RoadMap(); ///< Destructor
 };
 
