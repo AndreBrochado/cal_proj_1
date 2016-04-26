@@ -13,7 +13,7 @@ class App{
 		vector <Car*> cars;
 		vector <Ride*> rides;
 public:
-
+		//App(){};
 		friend void ReadData(App &a, string filename);
 		void AddUser(string name, string address);
 		void AddCar(User u, int Capacity, string licensePlate, string brand);

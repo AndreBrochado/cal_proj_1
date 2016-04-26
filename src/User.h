@@ -9,7 +9,7 @@ class User{
 	string name, address, destination;
 	vector <User> familiar; //TODO: o que e isto?
 	vector <Car> vehicles;
-	Ride r;
+	Ride* r;
 public:
 	User();
 	User(string name, string address);
