@@ -5,6 +5,7 @@
  *      Author: Ines
  */
 
+#include <values.h>
 #include "RoadMap.h"
 
 
@@ -228,7 +229,7 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
 	lastEl = oldPath.end();
 	lastEl--;
 
-	double min = INT_MAX;
+	double min = MAXDOUBLE;
 
 	for(it = oldPath.begin(); it != lastEl; it++){
 		Crossroad tmp = crossRoads.find(*it)->second;
@@ -244,22 +245,8 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
 
 	bestDeviation--;
 
-	min = INT_MAX;
-
-	for(it = bestDeviation; it != lastEl; it++){
-		Crossroad tmp = crossRoads.find(*it)->second;
-		dijkstraShortestPath(tmp);
-		if(getVertex(src)->getDist() < min) {
-			min = getVertex(src)->getDist();
-			bestDeviation = it;
-		}
-	}
-
-	bestDeviation++;
-
-	if(newDest != *lastEl){
-		oldPath.insert(bestDeviation, newDest);
-	}
+	setNextPoint(bestDeviation, lastEl, oldPath);
+    visualizePath(oldPath);
 
 	//TODO: validate new path (time and tolerances)
 	return true;
@@ -292,7 +279,7 @@ void RoadMap::visualizePath(const list<uint> &path){
 	it++;
 
 	while(it != ite){
-		Sleep(1000);
+		//Sleep(1000);
 
 		dijkstraShortestPath(c);
 

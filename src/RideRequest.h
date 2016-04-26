@@ -2,7 +2,7 @@
  * RideRequest.h
  *
  *  Created on: 20/04/2016
- *      Author: Inês
+ *      Author: Inï¿½s
  */
 
 #ifndef SRC_RIDEREQUEST_H_
@@ -12,7 +12,6 @@
 
 class RideRequest: public Ride {
 private:
-	//User* hitchhiker;
 
 public:
 	RideRequest(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);

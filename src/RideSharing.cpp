@@ -6,8 +6,14 @@ using namespace std;
 
 int main(){
 
+	uint newSrc = 797457677, newDest = 797457681;
 
-	string txtfile;
+    list<uint> oldPath = {797457674, 797457688};
+
+    RoadMap rm("Nodes.csv","Roads.csv","SubRoads.csv");
+    rm.bestPath(newSrc, newDest, oldPath);
+
+	/*string txtfile;
 	App application;
 
 	cout << "Introduce filename:" << endl;
@@ -58,7 +64,7 @@ int main(){
 	mustPass.push_back(1410061482);
 
 	rd.bestPath(1367705879, 1370572294, mustPass);
-
+*/
 	getchar();
 
 	return 0;
