@@ -107,14 +107,13 @@ bool validDay(int year, int month, int day) {
 void RideOfferHandler(App &a){
 	bool valid = false;
 	bool validID = false;
-	int ID = NULL;
+	int ID;
 	int timevar;
 
 	do {
 	cout << "Introduce your personal ID: \n";
 	cin >> ID;
 	for (unsigned z = 0; z < a.getUsers().size(); z++){
-		cout << "oi \n";
 		vector <User*> users = a.getUsers();
 		if( (*users[z]).returnID() == ID){
 			validID = true;
