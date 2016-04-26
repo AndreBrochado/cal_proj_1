@@ -46,8 +46,7 @@ private:
 public:
     RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads); ///< Constructor
     void viewMap();
-    void bestPath(uint id_src, uint id_dest, list<uint>mustPass);
-    bool bestPath(uint id_src, uint id_dest, list<uint>mustPass, vector<Crossroad> &path, double distSoFar, double &minDist);
+    bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath);
 	void setNextPoint(list<uint>::iterator it, list<uint>::iterator ite, list<uint>& oldPath);
 	uint getNodeId(string roadName, double doorNumber);
     ~RoadMap(); ///< Destructor
