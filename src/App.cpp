@@ -16,7 +16,6 @@ void App::readDataRides(string filename) {
             if (dummy == "<") {
                 getline(in, dummy, '_');
                 ID = atoi(dummy.c_str());
-                cout << ID << endl;
 
                 getline(in, dummy, '_');
                 departNode = atoi(dummy.c_str());
@@ -44,7 +43,6 @@ void App::readDataRides(string filename) {
 				for (unsigned i = 0; i < users.size();i++){
 					if((users[i])->getUserID() == ID){
 					addRideRequest( users.at(i) ,departNode,arrivalNode, departure, departTolerance, arrivalTolerance, noseats);
-					cout << "added";
 					}
 				}
 
@@ -145,14 +143,8 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
         itd++;
     }
 
-    cout << srcTime  << " " << (arrivalTime - request.getDepartureTolerance()) << endl;
-    cout << srcTime  << " " << (arrivalTime + request.getDepartureTolerance()) << endl;
-    cout << destTime - srcTime  << " " << request.getEstimatedArrival() - request.getArrivalTolerance() << endl;
-    cout << destTime - srcTime  << " " << request.getEstimatedArrival() + request.getArrivalTolerance() << endl;
-
     if(((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime <(arrivalTime + request.getDepartureTolerance())) &&
             (destTime - srcTime > request.getEstimatedArrival() - request.getArrivalTolerance()) && (destTime - srcTime < request.getEstimatedArrival() + request.getArrivalTolerance())))
-        cout << "Is possible" << endl;
 
     return ((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime <(arrivalTime + request.getDepartureTolerance())) &&
             ((destTime - srcTime) > request.getEstimatedArrival() - request.getArrivalTolerance()) && (destTime - srcTime < request.getEstimatedArrival() + request.getArrivalTolerance()));
