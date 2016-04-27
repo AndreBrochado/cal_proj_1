@@ -24,7 +24,11 @@ public:
      * @param filename name of the data-containing file
      */
     void readData(string filename);
-
+    /**
+         * Reads database data from a file
+         * @param filename name of the data-containing file
+         */
+    void readDataRides(App &a, string filename);
     /**
      * Creates an user with given name and address and adds it to the users vector
      * @param name user name

@@ -2,6 +2,63 @@
 #include "RideRequest.h"
 #include "RideOffer.h"
 
+void readDataRides(App &a, string filename) {
+    ifstream in;
+    string file = filename + ".txt";
+    in.open(file.c_str(), ios::in);
+    if (in.good()) {
+        while (in.good()) {
+            int ID, departNode, arrivalNode,noseats;
+            time_t departure, departTolerance,arrivalTolerance;
+            string dummy;
+
+            getline(in, dummy, '-');
+            if (dummy == "<") {
+                getline(in, dummy, '_');
+                ID = atoi(dummy.c_str());
+                cout << ID << endl;
+
+                getline(in, dummy, '_');
+                departNode = atoi(dummy.c_str());
+                cout << departNode << endl;
+
+                getline(in, dummy, '_');
+                arrivalNode =atoi(dummy.c_str());
+                cout << arrivalNode << endl;
+
+                getline(in, dummy, '_');
+                departure = atoi(dummy.c_str());
+                cout << departure << endl;
+
+                getline (in, dummy, '_');
+                departTolerance = atoi(dummy.c_str());
+                cout << departTolerance << endl;
+
+                getline(in, dummy, '_');
+                arrivalTolerance = atoi(dummy.c_str());
+                cout << arrivalTolerance << endl;
+
+                getline(in, dummy, '_');
+                noseats = atoi(dummy.c_str());
+                cout << noseats<< endl;
+            }
+
+            if (!in.eof())
+                in.ignore(1000, '\n');
+
+            if (in.eof()) {
+                return;
+            }
+
+        }
+    }
+    if (in.fail())
+        throw FileReadingError();
+
+    in.close();
+}
+
+
 void App::readData(string filename) {
     ifstream in;
     in.open(filename.c_str(), ios::in);
@@ -133,7 +190,7 @@ bool App::matchRides(RideOffer offer, RideRequest request){
 void App::tryToMatchRide(Ride* newRide){
 
     if (dynamic_cast<RideOffer*>(newRide) == NULL){
-        cout << "E uma offer" << endl;
+        cout << "E uma request" << endl;
         RideRequest* newRequest = dynamic_cast<RideRequest*>(newRide);
         for (int i = 0; i < offers.size(); ++i) {
             RideOffer* offer = dynamic_cast<RideOffer*>(offers[i]);

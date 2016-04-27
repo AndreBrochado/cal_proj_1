@@ -165,6 +165,17 @@ RoadMap::RoadMap(const std::string& fnodes, const std::string& froads, const std
 
 }
 
+void RoadMap::resetMap(){
+    vector<Vertex<Crossroad> *>::iterator it = vertexSet.begin();
+    vector<Vertex<Crossroad> *>::iterator ite = vertexSet.end();
+
+    while(it != ite){
+        gv->setVertexSize((*it)->getInfo().getId(), 5);
+        gv->setVertexColor((*it)->getInfo().getId(),"blue");
+        it++;
+    }
+}
+
 void RoadMap::viewMap(){
     //	uint width = 800;
     //	uint height = 1113;
@@ -229,6 +240,10 @@ void RoadMap::insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&must
         }
     }
 
+    if(minDist == INT_INFINITY){
+        cout << "Impossible!!!!!" <<endl;
+        return;
+    }
     if(*next == newSrc){
         dist.push_back(dist.back() + minDist);
         path.push_back(*next);
@@ -368,6 +383,7 @@ double RoadMap::getDist(uint srcId, uint destId){
 
 void RoadMap::visualizePath(list<uint> path){
 
+    this->resetMap();
     uint stopNo = 1;
     list<uint>::const_iterator it = path.begin();
     list<uint>::const_iterator ite = path.end();
