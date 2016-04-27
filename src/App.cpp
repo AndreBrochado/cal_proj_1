@@ -79,3 +79,48 @@ void App::addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time
     Ride* r = new RideOffer(departurePlace, arrivalPlace, departureTime, departureTolerance,arrivalTolerance, noSeats, user);
     offers.push_back(r);
 };
+
+bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<double> dist){
+    time_t srcTime, destTime;
+    time_t arrivalTime = request.getDepartureTime() - offer.getDepartureTime();
+    uint newSrc = request.getDeparturePlace();
+    uint newDest = request.getArrivalPlace();
+
+    list<uint>::iterator itr = route.begin();
+    list<double>::iterator itd = dist.begin();
+
+    while(itr != route.end() && itd != dist.end()){
+        if(newSrc == *itr)
+            srcTime = (time_t)(*itd / velAvr);
+        if(newDest == *itr)
+            destTime = (time_t)(*itd / velAvr);
+
+        itr++;
+        itd++;
+    }
+
+    return ((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime >(arrivalTime + request.getDepartureTolerance())) &&
+            (destTime - srcTime > request.getDepartureTime() - request.getArrivalTolerance()) && (destTime - srcTime > request.getDepartureTime() + request.getArrivalTolerance()));
+
+}
+
+void App::matchRides(RideOffer offer, RideRequest request){
+    RoadMap* rm = RoadMap::getInstance();
+
+    list<uint> newPath = offer.getRoute();
+    list<double> dist;
+
+    rm->bestPath(request.getDeparturePlace(), request.getArrivalPlace(), newPath, dist);
+
+    if(isPossible(offer, request,newPath, dist)){
+        vector<RideRequest> requests = offer.getRequests();
+
+        for (int i = 0; i < requests.size(); ++i) {
+            if(!isPossible(offer, requests[i],newPath, dist))
+                return;
+        }
+
+        offer.addRequest(request);
+        offer.setRoute(newPath);
+    }
+}

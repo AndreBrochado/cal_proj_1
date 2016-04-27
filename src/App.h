@@ -3,7 +3,8 @@
 #include "GraphViewer.h"
 #include "Graph.h"
 #include "Handler.h"
-#include "Ride.h"
+#include "RideOffer.h"
+#include "RideRequest.h"
 #include "Exceptions.h"
 
 
@@ -19,6 +20,7 @@ public:
 		void addCar(User u, int Capacity, string licensePlate, string brand);
 		void addRideRequest(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 	    void addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
-		vector <User*> getUsers();
+	    void matchRides(RideOffer offer, RideRequest request);
+	    vector <User*> getUsers();
 		vector <Car*> getCars();
 };
