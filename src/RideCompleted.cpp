@@ -7,8 +7,7 @@
 
 #include "RideCompleted.h"
 
-RideCompleted::RideCompleted(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats, RideOffer* rideOffer):
-	Ride(departureTime, estimatedArrival, departureTolerance, arrivalTolerance, noSeats), rideOffer(rideOffer){
+RideCompleted::RideCompleted(RideOffer* rideOffer): rideOffer(rideOffer){
 
 }
 

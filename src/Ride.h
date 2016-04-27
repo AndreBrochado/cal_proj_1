@@ -13,6 +13,8 @@
 #include "RoadMap.h"
 #include "User.h"
 
+const double velAvr = 50000/3600; //50km/h in m/s
+
 class Ride {
 protected:
 	//Como saber o tempo dispendido

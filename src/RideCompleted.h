@@ -12,11 +12,11 @@
 #include "RideRequest.h"
 #include <vector>
 
-class RideCompleted: public Ride {
+class RideCompleted{
 	RideOffer* rideOffer;
 	std::vector<RideRequest*> rideRequest;
 public:
-	RideCompleted(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats, RideOffer* rideOffer);
+	RideCompleted(RideOffer* rideOffer);
 	virtual ~RideCompleted();
 };
 

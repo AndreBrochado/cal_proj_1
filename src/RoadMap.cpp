@@ -9,6 +9,21 @@
 #include <float.h>
 #include "RoadMap.h"
 
+bool RoadMap::instanceFlag = false;
+RoadMap* RoadMap::rm = NULL;
+RoadMap* RoadMap::getInstance()
+{
+    if(! instanceFlag)
+    {
+        rm = new RoadMap("Nodes.csv", "Roads.csv", "SubRoads.csv");
+        instanceFlag = true;
+        return rm;
+    }
+    else
+    {
+        return rm;
+    }
+}
 
 void RoadMap::readNodesFile(const std::string& fnodes){
     std::ifstream nodes;
@@ -331,6 +346,15 @@ uint RoadMap::getCrossroadIdFromAddress(string roadName, double doorNumber){
     }
 
     return id;
+}
+
+double RoadMap::getDist(uint srcId, uint destId){
+    Crossroad src = crossRoads.find(srcId)->second;
+    Crossroad dest = crossRoads.find(destId)->second;
+
+    dijkstraShortestPath(src);
+
+    return getVertex(dest)->getDist();
 }
 
 void RoadMap::visualizePath(list<uint> path){

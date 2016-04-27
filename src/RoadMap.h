@@ -43,15 +43,22 @@ private:
 	void readSubRoadsFile(const std::string& fsubroads);
 
 	GraphViewer *gv;
+	static bool instanceFlag;
+	static RoadMap* rm;
+
+	RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads); ///< Constructor
 public:
-    RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads); ///< Constructor
+
     void viewMap();
     bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath);
     bool insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path);
-	void setNextPoint(list<uint>::iterator it, list<uint>::iterator ite, list<uint>& oldPath);
 	void insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&mustPass, list<uint> &path);
 	uint getCrossroadIdFromAddress(string roadName, double doorNumber);
+	double getDist(uint srcId, uint destId);
 	void visualizePath(list<uint> path);
+
+	static RoadMap* getInstance();
+
     ~RoadMap(); ///< Destructor
 };
 
