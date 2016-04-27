@@ -77,5 +77,5 @@ void App::addRideRequest(User* user , uint departurePlace, uint arrivalPlace, ti
 
 void App::addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
     Ride* r = new RideOffer(departurePlace, arrivalPlace, departureTime, departureTolerance,arrivalTolerance, noSeats, user);
-    requests.push_back(r);
+    offers.push_back(r);
 };

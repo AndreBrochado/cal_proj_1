@@ -132,11 +132,10 @@ void createRide(App &a, int offerType){
         uint doorNumber;
         RoadMap* rm = RoadMap::getInstance();
         cout << "Introduce the name of the street of inicial location: \n";
-        getline(cin,roadName);
         cin.ignore(10000,'\n');
+        getline(cin,roadName);
         cout << "Introduce the number of the door of inicial location: \n";
         cin >> doorNumber;
-
         src = rm->getCrossroadIdFromAddress(roadName, doorNumber);
     }while(src == -1);
 
@@ -146,8 +145,8 @@ void createRide(App &a, int offerType){
         uint doorNumber;
         RoadMap* rm = RoadMap::getInstance();
         cout << "Introduce the name of the street of inicial location: \n";
-        getline(cin,roadName);
         cin.ignore(10000,'\n');
+        getline(cin,roadName);
         cout << "Introduce the number of the door of inicial location: \n";
         cin >> doorNumber;
 
