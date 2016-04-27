@@ -70,12 +70,12 @@ void App::addCar(User u, int Capacity, string licensePlate, string brand){
 	}
 };
 
-void App::addRideRequest(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
-	Ride* r = new RideRequest(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
+void App::addRideRequest(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
+	Ride* r = new RideRequest(departurePlace, arrivalPlace, departureTime,departureTolerance,arrivalTolerance, noSeats, user);
 	requests.push_back(r);
 };
 
-void App::addRideOffer(int ID ,time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
-    Ride* r = new RideOffer(departureTime,estimatedArrival,departureTolerance,arrivalTolerance, noSeats);
+void App::addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
+    Ride* r = new RideOffer(departurePlace, arrivalPlace, departureTime, departureTolerance,arrivalTolerance, noSeats, user);
     requests.push_back(r);
 };

@@ -15,9 +15,9 @@
 
 class RideOffer: public Ride {
 private:
-	std::list<Vertex<Crossroad> > route;
+	std::list<unsigned int> route;
 public:
-	RideOffer(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
+	RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* driver);
 	virtual ~RideOffer();
 };
 

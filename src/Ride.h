@@ -11,7 +11,7 @@
 #include <ctime>
 #include <memory>
 #include "RoadMap.h"
-//#include "User.h"
+#include "User.h"
 
 class Ride {
 protected:
@@ -19,9 +19,11 @@ protected:
 	uint departurePlace, arrivalPlace;
 	time_t departureTime, estimatedArrival, departureTolerance, arrivalTolerance;
 	int noSeats;
+	User* driver;
+	vector<User*> hitchhikers;
 public:
 	Ride(){};
-	Ride(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
+	Ride(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 	virtual ~Ride();
 
 	time_t getArrivalTolerance() const {

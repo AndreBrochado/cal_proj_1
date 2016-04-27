@@ -7,9 +7,10 @@
 
 #include "RideRequest.h"
 
-RideRequest::RideRequest(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats):
-	Ride(departureTime, estimatedArrival, departureTolerance, arrivalTolerance, noSeats){
-
+RideRequest::RideRequest(uint departurePlace, uint arrivalPlace,time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* hitchhiker):
+Ride(departurePlace, arrivalPlace, departureTime, departureTolerance, arrivalTolerance, noSeats){
+    this->driver = NULL;
+    this->hitchhikers.push_back(hitchhiker);
 }
 
 RideRequest::~RideRequest() {

@@ -1,7 +1,5 @@
 #include "Helper.h"
 #include "Car.h"
-#include "Ride.h"
-
 
 class User{
 	static int ID;
@@ -24,7 +22,6 @@ public:
     }
 
     void print(ostream &out) const {};
-	void setRide(Ride* ride);
 
 	friend bool operator==(const User &u1,const User &u2){
 		return u1.userID == u2.userID;

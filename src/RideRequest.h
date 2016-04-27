@@ -14,7 +14,7 @@ class RideRequest: public Ride {
 private:
 
 public:
-	RideRequest(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
+	RideRequest(uint departurePlace, uint arrivalPlace,time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* hitchhiker);
 	virtual ~RideRequest();
 };
 

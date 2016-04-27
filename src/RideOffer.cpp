@@ -7,13 +7,13 @@
 
 #include "RideOffer.h"
 
-RideOffer::RideOffer(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats):
-	Ride(departureTime, estimatedArrival, departureTolerance, arrivalTolerance, noSeats){
-	// TODO Auto-generated constructor stub
-    // TODO: Uncomment when points are implemented
-	//route.push_back(departurePoint);
-    //route.push_back(arrivalPoint);
+RideOffer::RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* driver):
+	Ride(departurePlace, arrivalPlace, departureTime, departureTolerance, arrivalTolerance, noSeats){
 
+	route.push_back(departurePlace);
+    route.push_back(arrivalPlace);
+
+    this->driver = driver;
 }
 
 RideOffer::~RideOffer() {

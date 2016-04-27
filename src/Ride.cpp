@@ -7,8 +7,8 @@
 
 #include "Ride.h"
 
-Ride::Ride(time_t departureTime, time_t estimatedArrival, time_t departureTolerance, time_t arrivalTolerance, int noSeats):
-	departureTime(departureTime), estimatedArrival(estimatedArrival), departureTolerance(departureTolerance), arrivalTolerance(arrivalTolerance), noSeats(noSeats){
+Ride::Ride(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats):
+departurePlace(departurePlace), arrivalPlace(arrivalPlace),departureTime(departureTime), departureTolerance(departureTolerance), arrivalTolerance(arrivalTolerance), noSeats(noSeats){
 
 }
 

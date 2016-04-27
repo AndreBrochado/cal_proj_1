@@ -107,9 +107,12 @@ void getDate(tm &date) {
 void createRide(App &a, int offerType){
 	bool valid = false;
 	bool validID = false;
+	User* user;
 	int ID;
 	int timevar;
     int noSeats;
+    //TODO: Inicialize these
+    uint src, dest;
 
 	do {
 		cout << "Introduce your personal ID: \n";
@@ -118,6 +121,7 @@ void createRide(App &a, int offerType){
 			vector <User*> users = a.getUsers();
 			if( (*users[z]).getUserID() == ID){
 				validID = true;
+				user = users[z];
 			}
 		}
 	}while(!validID);
@@ -151,9 +155,9 @@ void createRide(App &a, int offerType){
 	time_t arrivalTolerance = timevar *60;
 
 	if(offerType == 1)
-	    a.addRideOffer(ID,mktime(&date),departureTolerance,arrivalTolerance,mktime(&date),noSeats);
+	    a.addRideOffer(user, src, dest, mktime(&date),departureTolerance,mktime(&date),noSeats);
     else
-        a.addRideRequest(ID,mktime(&date),departureTolerance,arrivalTolerance,mktime(&date),noSeats);
+        a.addRideRequest(user, src, dest, mktime(&date),departureTolerance,mktime(&date),noSeats);
 
 	return;
 };
