@@ -71,11 +71,13 @@ void App::addCar(User user, int capacity, string licensePlate, string brand){
 void App::addRideRequest(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
 	Ride* r = new RideRequest(departurePlace, arrivalPlace, departureTime,departureTolerance,arrivalTolerance, noSeats, user);
 	requests.push_back(r);
+	tryToMatchRide(r);
 };
 
 void App::addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
     Ride* r = new RideOffer(departurePlace, arrivalPlace, departureTime, departureTolerance,arrivalTolerance, noSeats, user);
     offers.push_back(r);
+    tryToMatchRide(r);
 }
 
 void App::showUsersInfo() {
@@ -136,4 +138,28 @@ bool App::matchRides(RideOffer offer, RideRequest request){
     }
     else
         return false;
+}
+
+void App::tryToMatchRide(Ride* newRide){
+
+    if (dynamic_cast<RideOffer*>(newRide) == NULL){
+        RideOffer* newOffer = dynamic_cast<RideOffer*>(newRide);
+        for (int i = 0; i < requests.size(); ++i) {
+            RideRequest* request = dynamic_cast<RideRequest*>(requests[i]);
+            if(matchRides(*newOffer,*request)){
+                requests.erase(requests.begin()+i);
+                return;
+            }
+        }
+    }
+
+    if (dynamic_cast<RideRequest*>(newRide) == NULL){
+        RideRequest* newRequest = dynamic_cast<RideRequest*>(newRide);
+        for (int i = 0; i < offers.size(); ++i) {
+            RideOffer* offer = dynamic_cast<RideOffer*>(offers[i]);
+            if(matchRides(*offer,*newRequest)){
+                return;
+            }
+        }
+    }
 }
