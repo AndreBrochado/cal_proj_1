@@ -12,11 +12,20 @@
 #include "RideRequest.h"
 #include <vector>
 
+/**
+ * @class RideCompleted holds information of rides that were matched
+ */
 class RideCompleted{
 	RideOffer* rideOffer;
-	std::vector<RideRequest*> rideRequest;
+	const vector<RideRequest> rideRequests;
 public:
+    /**
+     * Class base constructor
+     */
 	RideCompleted(RideOffer* rideOffer);
+    /**
+     * Class default destructor
+     */
 	virtual ~RideCompleted();
 };
 

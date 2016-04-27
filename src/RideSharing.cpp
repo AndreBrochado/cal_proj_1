@@ -23,7 +23,7 @@ int main(){
 
     if(filename != "") {
         try {
-            application.readData(application, filename);
+            application.readData(filename);
         } catch (FileReadingError &e) {
             cout << "Error reading file." << endl;
             return 1;

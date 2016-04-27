@@ -10,12 +10,23 @@
 
 #include "Ride.h"
 
-class RideRequest: public Ride {
+/**
+ * @class RideRequest holds information of ride requests
+ */
+class RideRequest : public Ride {
 private:
 
 public:
-	RideRequest(uint departurePlace, uint arrivalPlace,time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* hitchhiker);
-	virtual ~RideRequest();
+    /**
+     * Class base constructor
+     */
+    RideRequest(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance,
+                time_t arrivalTolerance, int noSeats, User *hitchhiker);
+
+    /**
+     * Class default destructor
+     */
+    virtual ~RideRequest();
 };
 
 #endif /* SRC_RIDEREQUEST_H_ */

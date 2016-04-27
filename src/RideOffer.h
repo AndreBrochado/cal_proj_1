@@ -14,27 +14,52 @@
 #include "Graph.h"
 #include <list>
 
-class RideOffer: public Ride {
+/**
+ * @class RideOffer holds information of ride offers
+ */
+class RideOffer : public Ride {
 private:
-	std::list<unsigned int> route;
-	vector<RideRequest> requests;
+    std::list<unsigned int> route;
+    vector<RideRequest> requests;
 public:
-	RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* driver);
-	virtual ~RideOffer();
+    /**
+     * Class base constructor
+     */
+    RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance,
+              time_t arrivalTolerance, int noSeats, User *driver);
 
-    const vector<RideRequest>& getRequests() const {
+    /**
+     * Class default destructor
+     */
+    virtual ~RideOffer();
+
+    /**
+     * @returns associated requests
+     */
+    const vector<RideRequest> &getRequests() const {
         return requests;
     }
 
-    const std::list<unsigned int>& getRoute() const {
+    /**
+     * @returns the current route
+     */
+    const std::list<unsigned int> &getRoute() const {
         return route;
     }
 
-    void setRoute(const std::list<unsigned int>& route) {
+    /**
+     * Sets the route to a given path
+     * @param route given route to set
+     */
+    void setRoute(const std::list<unsigned int> &route) {
         this->route = route;
     }
 
-    void addRequest(RideRequest request){
+    /**
+     * Adds a request to the requests vector
+     */
+    void addRequest(RideRequest request) {
+        this->noSeats -= request.getNoSeats();
         requests.push_back(request);
     }
 };

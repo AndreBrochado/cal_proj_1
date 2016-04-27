@@ -26,7 +26,6 @@ void App::readData(string filename) {
                 getline(in, licensePlate, '_');
                 getline(in, brand, '>');
                 User* u = getUsers().back();
-                addCar((*u), capacity, licensePlate, brand);
 
             }
 
@@ -52,20 +51,6 @@ void App::addUser(string name, string address){
 
 vector <User*> App::getUsers(){
 	return users;
-};
-
-vector <Car*> App::getCars(){
-	return cars;
-};
-
-
-void App::addCar(User user, int capacity, string licensePlate, string brand){
-	Car* c1 = new Car(capacity,licensePlate,brand);
-	for (unsigned i = 0; i < users.size(); i++){
-		if(user ==  (*users[i])){
-			users[i]->addCar(*c1);
-		}
-	}
 };
 
 void App::addRideRequest(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){

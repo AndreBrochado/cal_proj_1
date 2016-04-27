@@ -12,7 +12,6 @@
  */
 class App {
     vector<User *> users;
-    vector<Car *> cars;
     vector<Ride *> requests, offers, completed;
 public:
     /**
@@ -32,15 +31,6 @@ public:
      * @param address user address
      */
     void addUser(string name, string address);
-
-    /**
-     * Creates a car with given data and adds it to the cars vector
-     * @param u owner of the car
-     * @param capacity car capacity
-     * @param licensePlate car license plate
-     * @param brand car brand
-     */
-    void addCar(User user, int capacity, string licensePlate, string brand);
 
     /**
      * Creates a Ride Request and adds it to the requests vector
@@ -68,6 +58,11 @@ public:
     void addRideOffer(User *user, uint departurePlace, uint arrivalPlace, time_t departureTime,
                       time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 
+    /**
+     * Tries to match a ride offer with a ride request (checks if distances and times are valid)
+     * @param offer Ride Offer that is being tried to match
+     * @param request Ride Request that is being tried to match
+     */
     void matchRides(RideOffer offer, RideRequest request);
 
     /**
@@ -80,8 +75,4 @@ public:
      */
     vector<User *> getUsers();
 
-    /**
-     * @returns the cars vector
-     */
-    vector<Car *> getCars();
 };
