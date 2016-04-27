@@ -17,8 +17,8 @@ bool validDay(int year, int month, int day) {
 		case 12:
 			return day <= 31;
 		case 2: {
-			bool leapyear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-			if (leapyear)
+			bool leapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+			if (leapYear)
 				return day <= 29;
 			else
 				return day <= 28;
@@ -27,7 +27,6 @@ bool validDay(int year, int month, int day) {
 			return false;
 	}
 }
-
 
 bool validHour(int hour, int minute) {
 	return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
@@ -99,15 +98,10 @@ void getDate(tm &date) {
 	} while (!validHour(date.tm_hour, date.tm_min));
 }
 
-
-
-
-
-
 void createRide(App &a, int offerType){
 	bool valid = false;
 	bool validID = false;
-	User* user;
+	User* user = NULL;
 	int ID;
 	int timevar;
     int noSeats;
@@ -115,10 +109,10 @@ void createRide(App &a, int offerType){
     uint src, dest;
 
 	do {
-		cout << "Introduce your personal ID: \n";
+		cout << "Introduce your personal ID: ";
 		cin >> ID;
-		for (unsigned z = 0; z < a.getUsers().size(); z++){
-			vector <User*> users = a.getUsers();
+		vector <User*> users = a.getUsers();
+		for (unsigned z = 0; z < users.size(); z++){
 			if( (*users[z]).getUserID() == ID){
 				validID = true;
 				user = users[z];
@@ -126,15 +120,15 @@ void createRide(App &a, int offerType){
 		}
 	}while(!validID);
 
-	//Input src
+
     do {
         string roadName;
         uint doorNumber;
         RoadMap* rm = RoadMap::getInstance();
-        cout << "Introduce the name of the street of inicial location: \n";
+        cout << "Introduce the name of the street of initial location: \n";
         getline(cin,roadName);
         cin.ignore(10000,'\n');
-        cout << "Introduce the number of the door of inicial location: \n";
+        cout << "Introduce the number of the door of initial location: \n";
         cin >> doorNumber;
 
         src = rm->getCrossroadIdFromAddress(roadName, doorNumber);
@@ -145,10 +139,10 @@ void createRide(App &a, int offerType){
         string roadName;
         uint doorNumber;
         RoadMap* rm = RoadMap::getInstance();
-        cout << "Introduce the name of the street of inicial location: \n";
+        cout << "Introduce the name of the street of final location: \n";
         getline(cin,roadName);
         cin.ignore(10000,'\n');
-        cout << "Introduce the number of the door of inicial location: \n";
+        cout << "Introduce the number of the door of final location: \n";
         cin >> doorNumber;
 
         dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
@@ -174,18 +168,18 @@ void createRide(App &a, int offerType){
 		}
 	}while(!valid);
 
-	cout <<"Introduce tolerance for your departure in minutes: \n";
+	cout <<"Introduce tolerance for your departure in minutes: ";
 	cin >> timevar;
 	time_t departureTolerance= timevar *60;
 
-	cout <<"Introduce tolerance for your arrival in minutes: \n";
+	cout <<"Introduce tolerance for your arrival in minutes: ";
 	cin >> timevar;
 	time_t arrivalTolerance = timevar *60;
 
-	if(offerType == 1)
-	    a.addRideOffer(user, src, dest, mktime(&date),departureTolerance,arrivalTolerance,noSeats);
-    else
-        a.addRideRequest(user, src, dest, mktime(&date),departureTolerance,arrivalTolerance,noSeats);
-
-	return;
+    if(user != NULL) {
+        if (offerType == 1)
+            a.addRideOffer(user, src, dest, mktime(&date), departureTolerance, arrivalTolerance, noSeats);
+        else
+            a.addRideRequest(user, src, dest, mktime(&date), departureTolerance, arrivalTolerance, noSeats);
+    }
 };
