@@ -35,6 +35,12 @@ int main(){
         }
     }
 
+	   try {
+       application.readDataRides("ridesDatabase.txt");
+      } catch (FileReadingError &e) {
+          cout << "Starting without RidesTest." << endl;
+      }
+
     int choice, counter = 0;
     do{
         do{

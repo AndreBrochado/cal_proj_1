@@ -2,9 +2,9 @@
 #include "RideRequest.h"
 #include "RideOffer.h"
 
-void readDataRides(App &a, string filename) {
+void App::readDataRides(string filename) {
     ifstream in;
-    string file = filename + ".txt";
+    string file = filename;
     in.open(file.c_str(), ios::in);
     if (in.good()) {
         while (in.good()) {
@@ -20,27 +20,35 @@ void readDataRides(App &a, string filename) {
 
                 getline(in, dummy, '_');
                 departNode = atoi(dummy.c_str());
-                cout << departNode << endl;
+
 
                 getline(in, dummy, '_');
                 arrivalNode =atoi(dummy.c_str());
-                cout << arrivalNode << endl;
+
 
                 getline(in, dummy, '_');
                 departure = atoi(dummy.c_str());
-                cout << departure << endl;
+
 
                 getline (in, dummy, '_');
                 departTolerance = atoi(dummy.c_str());
-                cout << departTolerance << endl;
+
 
                 getline(in, dummy, '_');
                 arrivalTolerance = atoi(dummy.c_str());
-                cout << arrivalTolerance << endl;
 
-                getline(in, dummy, '_');
+
+                getline(in, dummy, '>');
                 noseats = atoi(dummy.c_str());
-                cout << noseats<< endl;
+
+				for (unsigned i = 0; i < users.size();i++){
+					if((users[i])->getUserID() == ID){
+					addRideRequest( users.at(i) ,departNode,arrivalNode, departure, departTolerance, arrivalTolerance, noseats);
+					cout << "added";
+					}
+				}
+
+
             }
 
             if (!in.eof())
