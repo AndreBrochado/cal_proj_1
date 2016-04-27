@@ -20,16 +20,6 @@ void App::readData(string filename) {
                 addUser(name, address);
             }
 
-            if (dummy == ">") {
-                getline(in, dummy, '_');
-                capacity = atoi(dummy.c_str());
-                getline(in, licensePlate, '_');
-                getline(in, brand, '>');
-                User* u = getUsers().back();
-                addCar((*u), capacity, licensePlate, brand);
-
-            }
-
             if (!in.eof())
                 in.ignore(1000, '\n');
 
@@ -46,32 +36,32 @@ void App::readData(string filename) {
 }
 
 void App::addUser(string name, string address){
-	User* u1 = new User(name,address);
-	users.push_back(u1);
+    User* u1 = new User(name,address);
+    users.push_back(u1);
 };
 
 vector <User*> App::getUsers(){
-	return users;
+    return users;
 };
 
 vector <Car*> App::getCars(){
-	return cars;
+    return cars;
 };
 
 
 void App::addCar(User user, int capacity, string licensePlate, string brand){
-	Car* c1 = new Car(capacity,licensePlate,brand);
-	for (unsigned i = 0; i < users.size(); i++){
-		if(user ==  (*users[i])){
-			users[i]->addCar(*c1);
-		}
-	}
+    Car* c1 = new Car(capacity,licensePlate,brand);
+    for (unsigned i = 0; i < users.size(); i++){
+        if(user ==  (*users[i])){
+            users[i]->addCar(*c1);
+        }
+    }
 };
 
 void App::addRideRequest(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
-	Ride* r = new RideRequest(departurePlace, arrivalPlace, departureTime,departureTolerance,arrivalTolerance, noSeats, user);
-	requests.push_back(r);
-	tryToMatchRide(r);
+    Ride* r = new RideRequest(departurePlace, arrivalPlace, departureTime,departureTolerance,arrivalTolerance, noSeats, user);
+    requests.push_back(r);
+    tryToMatchRide(r);
 };
 
 void App::addRideOffer(User* user , uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats){
@@ -92,6 +82,8 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
     uint newSrc = request.getDeparturePlace();
     uint newDest = request.getArrivalPlace();
 
+    cout << "Uau!!!!!" << endl;
+
     list<uint>::iterator itr = route.begin();
     list<double>::iterator itd = dist.begin();
 
@@ -105,15 +97,27 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
         itd++;
     }
 
-    return ((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime >(arrivalTime + request.getDepartureTolerance())) &&
-            (destTime - srcTime > request.getDepartureTime() - request.getArrivalTolerance()) && (destTime - srcTime > request.getDepartureTime() + request.getArrivalTolerance()));
+    cout << srcTime  << " " << (arrivalTime - request.getDepartureTolerance()) << endl;
+    cout << srcTime  << " " << (arrivalTime + request.getDepartureTolerance()) << endl;
+    cout << destTime - srcTime  << " " << request.getEstimatedArrival() - request.getArrivalTolerance() << endl;
+    cout << destTime - srcTime  << " " << request.getEstimatedArrival() + request.getArrivalTolerance() << endl;
+
+    if(((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime <(arrivalTime + request.getDepartureTolerance())) &&
+            (destTime - srcTime > request.getEstimatedArrival() - request.getArrivalTolerance()) && (destTime - srcTime < request.getEstimatedArrival() + request.getArrivalTolerance())))
+        cout << "Is possible" << endl;
+
+    return ((srcTime >(arrivalTime - request.getDepartureTolerance()) && srcTime <(arrivalTime + request.getDepartureTolerance())) &&
+            ((destTime - srcTime) > request.getEstimatedArrival() - request.getArrivalTolerance()) && (destTime - srcTime < request.getEstimatedArrival() + request.getArrivalTolerance()));
 
 }
 
 bool App::matchRides(RideOffer offer, RideRequest request){
 
-    if(offer.getNoSeats() < request.getNoSeats())
+    cout << offer.getNoSeats() << " - " << request.getNoSeats() << endl;
+
+    if(offer.getNoSeats() < request.getNoSeats()){
         return false;
+    }
 
     RoadMap* rm = RoadMap::getInstance();
 
@@ -121,6 +125,7 @@ bool App::matchRides(RideOffer offer, RideRequest request){
     list<double> dist;
 
     rm->bestPath(request.getDeparturePlace(), request.getArrivalPlace(), newPath, dist);
+
 
     if(isPossible(offer, request,newPath, dist)){
         vector<RideRequest> requests = offer.getRequests();
@@ -143,21 +148,27 @@ bool App::matchRides(RideOffer offer, RideRequest request){
 void App::tryToMatchRide(Ride* newRide){
 
     if (dynamic_cast<RideOffer*>(newRide) == NULL){
-        RideOffer* newOffer = dynamic_cast<RideOffer*>(newRide);
-        for (int i = 0; i < requests.size(); ++i) {
-            RideRequest* request = dynamic_cast<RideRequest*>(requests[i]);
-            if(matchRides(*newOffer,*request)){
-                requests.erase(requests.begin()+i);
+        cout << "E uma offer" << endl;
+        RideRequest* newRequest = dynamic_cast<RideRequest*>(newRide);
+        for (int i = 0; i < offers.size(); ++i) {
+            RideOffer* offer = dynamic_cast<RideOffer*>(offers[i]);
+            if(matchRides(*offer,*newRequest)){
+                cout << "Match found!!!";
                 return;
             }
         }
     }
 
+
     if (dynamic_cast<RideRequest*>(newRide) == NULL){
-        RideRequest* newRequest = dynamic_cast<RideRequest*>(newRide);
-        for (int i = 0; i < offers.size(); ++i) {
-            RideOffer* offer = dynamic_cast<RideOffer*>(offers[i]);
-            if(matchRides(*offer,*newRequest)){
+        cout << "E uma offer" << endl;
+        RideOffer* newOffer = dynamic_cast<RideOffer*>(newRide);
+        for (int i = 0; i < requests.size(); ++i) {
+            cout << "Hello" << endl;
+            RideRequest* request = dynamic_cast<RideRequest*>(requests[i]);
+            if(matchRides(*newOffer,*request)){
+                requests.erase(requests.begin()+i);
+                cout << "Match found!!!";
                 return;
             }
         }
