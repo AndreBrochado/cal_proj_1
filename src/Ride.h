@@ -47,6 +47,14 @@ public:
 	int getNoSeats() const {
 		return noSeats;
 	}
+
+    uint getArrivalPlace() const {
+        return arrivalPlace;
+    }
+
+    uint getDeparturePlace() const {
+        return departurePlace;
+    }
 };
 
 #endif /* SRC_RIDE_H_ */

@@ -212,7 +212,7 @@ void RoadMap::viewMap(){
     gv->rearrange();
 }
 
-void RoadMap::insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&mustPass, list<uint> &path){
+void RoadMap::insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&mustPass, list<uint> &path, list<double> &dist){
 
     Crossroad src = crossRoads.find(srcId)->second;
     list<uint>::iterator next;
@@ -230,30 +230,36 @@ void RoadMap::insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&must
     }
 
     if(*next == newSrc){
+        dist.push_back(dist.back() + minDist);
         path.push_back(*next);
 
         mustPass.erase(next);
 
     }
     else{
+        dist.push_back(dist.back() + minDist);
         path.push_back(*next);
 
         mustPass.erase(next);
 
 
-        insertNewSrc(path.back(), destId, newSrc, mustPass, path);
+        insertNewSrc(path.back(), destId, newSrc, mustPass, path, dist);
     }
 
 }
 
-bool RoadMap::insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path){
-    Crossroad src = crossRoads.find(id_src)->second;
+bool RoadMap::insertNewDest(uint srcId, uint destId, list<uint> mustPass, list<uint> &path, list<double> &dist){
+    Crossroad src = crossRoads.find(srcId)->second;
     list<uint>::iterator next;
 
     dijkstraShortestPath(src);
 
     if(mustPass.empty()){
-        path.push_back(id_dest);
+        Crossroad dest = crossRoads.find(destId)->second;
+        double minDist = getVertex(dest)->getDist();
+
+        dist.push_back(dist.back() + minDist);
+        path.push_back(destId);
     }
     else{
         double minDist = DBL_MAX;
@@ -266,17 +272,18 @@ bool RoadMap::insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list
             }
         }
 
+        dist.push_back(dist.back() + minDist);
         path.push_back(*next);
 
         mustPass.erase(next);
 
-        insertNewDest(path.back(), id_dest, mustPass, path);
+        insertNewDest(path.back(), destId, mustPass, path, dist);
     }
 
     return true;
 }
 
-bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
+bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist){
     list<uint> newPath;
     list<uint> mustPass = oldPath;
     uint src = oldPath.front();
@@ -305,9 +312,11 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
         mustPass.push_back(newSrc);
 
     //Insert newSrc in path
+    dist.clear();
+    dist.push_back(0);
     newPath.push_back(src);
 
-    insertNewSrc(src, dest, newSrc, mustPass, newPath);
+    insertNewSrc(src, dest, newSrc, mustPass, newPath,dist);
 
     //Check if adding newDest is needed
     bool newDestIsInPath = false;
@@ -329,7 +338,7 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath){
         mustPass.push_back(newDest);
 
     //Complete path inserting
-    insertNewDest(newSrc, dest, mustPass, newPath);
+    insertNewDest(newSrc, dest, mustPass, newPath, dist);
 
     oldPath.clear();
 
