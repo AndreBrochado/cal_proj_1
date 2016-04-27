@@ -11,11 +11,3 @@ User::User(string name,string address){
 	userID = ID;
 	ID++;
 }
-
-void User::addCar(Car c1){
-	vehicles.push_back(c1);
-};
-
-vector <Car> User::getVehicles(){
-	return vehicles;
-};

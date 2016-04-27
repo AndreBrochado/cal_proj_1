@@ -11,6 +11,9 @@
 #include <string>
 #include "Crossroad.h"
 
+/**
+ * @class Road holds information a given real world road
+ */
 class Road{
 private:
 	string name;
@@ -18,16 +21,29 @@ private:
 	vector<double> aproximateDoorNumbers;
 	vector<Crossroad*> crossroads;
 public:
-	Road(string name, bool twoWay): name(name), twoWay(twoWay){} ///< Constructor
+    /**
+     * Class base constructor
+     */
+	Road(string name, bool twoWay): name(name), twoWay(twoWay){}
 
+    /**
+     * @returns the road name
+     */
 	const string& getName() const {
 		return name;
 	}
 
+    /**
+     * @returns true if the road can be travelled in both directions, false if it can't
+     */
 	bool isTwoWay() const {
 		return twoWay;
 	}
 
+    /**
+     * Adds a crossroad to the road
+     * @param c given crossroad
+     */
 	void addCrossroad(Crossroad* c){
 		if(crossroads.empty()){
 			aproximateDoorNumbers.push_back(0);
@@ -39,10 +55,19 @@ public:
 		}
 	}
 
+    /**
+     * @returns the vector of crossroads
+     */
 	vector<Crossroad*> getCrossroads(){
 		return crossroads;
 	}
 
+    /**
+     * Gets node id for a given road name and door number
+     * @param roadName given road name
+     * @param doorNumber given door number
+     * @returns node id
+     */
 	unsigned int getNodeId(string roadName, double doorNumber){
 		if(roadName != name)
 			return -1;

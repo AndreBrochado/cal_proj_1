@@ -13,45 +13,81 @@
 #include "RoadMap.h"
 #include "User.h"
 
-const double velAvr = 50000/3600; //50km/h in m/s
+const double velAvr = 50000 / 3600; //50km/h in m/s
 
+/**
+ * @class Ride superclass for ride requests, offers and completed rides
+ */
 class Ride {
 protected:
-	//Como saber o tempo dispendido
-	uint departurePlace, arrivalPlace;
-	time_t departureTime, estimatedArrival, departureTolerance, arrivalTolerance;
-	int noSeats;
-	User* driver;
-	vector<User*> hitchhikers;
+    //Como saber o tempo dispendido
+    uint departurePlace, arrivalPlace;
+    time_t departureTime, estimatedArrival, departureTolerance, arrivalTolerance;
+    int noSeats;
+    User *driver;
+    vector<User *> hitchhikers;
 public:
-	Ride(){};
-	Ride(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats);
-	virtual ~Ride();
+    /**
+     * Class default Constructor
+     */
+    Ride() { };
 
-	time_t getArrivalTolerance() const {
-		return arrivalTolerance;
-	}
+    /**
+     * Class base constructor
+     */
+    Ride(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance,
+         time_t arrivalTolerance, int noSeats);
 
-	time_t getDepartureTime() const {
-		return departureTime;
-	}
+    /**
+     * Class default destructor
+     */
+    virtual ~Ride();
 
-	time_t getDepartureTolerance() const {
-		return departureTolerance;
-	}
+    /**
+     * @returns tolerance time for arrival
+     */
+    time_t getArrivalTolerance() const {
+        return arrivalTolerance;
+    }
 
-	time_t getEstimatedArrival() const {
-		return estimatedArrival;
-	}
+    /**
+     * @returns departure date
+     */
+    time_t getDepartureTime() const {
+        return departureTime;
+    }
 
-	int getNoSeats() const {
-		return noSeats;
-	}
+    /**
+     * @returns tolerance time for departure
+     */
+    time_t getDepartureTolerance() const {
+        return departureTolerance;
+    }
 
+    /**
+     * @returns estimated time of arrival
+     */
+    time_t getEstimatedArrival() const {
+        return estimatedArrival;
+    }
+
+    /**
+     * @returns number of seats
+     */
+    int getNoSeats() const {
+        return noSeats;
+    }
+
+    /**
+     * @returns place of arrival (inode)
+     */
     uint getArrivalPlace() const {
         return arrivalPlace;
     }
 
+    /**
+     * @returns place of departure (inode)
+     */
     uint getDeparturePlace() const {
         return departurePlace;
     }

@@ -1,44 +1,50 @@
 #include "Helper.h"
-#include "Car.h"
+#include <iostream>
+#include <string>
 
+using namespace std;
+
+/**
+ * @class User holds a user data and functionalities
+ */
 class User{
 	static int ID;
 	int userID;
-	string name, address;
-	vector <Car> vehicles;
+	std::string name, address;
 public:
+    /**
+     * Class base constructor
+     */
 	User(string name, string address);
-	void addCar(Car c1);
-	vector <Car> getVehicles();
 
-    int getUserID() const {
-        return userID;
-    }
-    const string &getName() const {
-        return name;
-    }
-    const string &getAddress() const {
-        return address;
-    }
+    /**
+     * @returns user ID
+     */
+	int getUserID() const {
+		return userID;
+	}
 
-    void print(ostream &out) const {};
+    /**
+     * @returns user name
+     */
+	const string &getName() const {
+		return name;
+	}
+
+    /**
+     * @returns user address
+     */
+	const string &getAddress() const {
+		return address;
+	}
 
 	friend bool operator==(const User &u1,const User &u2){
 		return u1.userID == u2.userID;
 	}
 
-	friend ostream& operator<<(ostream& os, const User& u)
-	{
-		if ( !u.vehicles.empty()){
-			for (unsigned i = 0; i < u.vehicles.size(); i++){
-			os << u.name << " @" << u.address << "--"<< u.vehicles[i] << endl;
-			}
-
-		}
-		else {
-			os << u.name << " @" << u.address <<endl;
-		}
-	    return os;
+	friend ostream& operator<<(ostream& os, const User& u) {
+		os << u.name << " " << u.address <<endl;
+		return os;
 	}
 
 };

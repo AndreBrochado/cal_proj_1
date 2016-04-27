@@ -7,8 +7,7 @@
 
 #include "RideCompleted.h"
 
-RideCompleted::RideCompleted(RideOffer* rideOffer): rideOffer(rideOffer){
-
+RideCompleted::RideCompleted(RideOffer* rideOffer): rideOffer(rideOffer), rideRequests(rideOffer->getRequests()){
 }
 
 RideCompleted::~RideCompleted() {

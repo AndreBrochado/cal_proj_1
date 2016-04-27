@@ -25,39 +25,61 @@ typedef unsigned int uint;
 class Road;
 
 /**
-* Represents an RoadMap
-*/
-class RoadMap : protected Graph<Crossroad>
-{
+ * @class RoadMap represents a Road Map
+ */
+class RoadMap : protected Graph<Crossroad> {
 private:
-	map<uint, Crossroad> crossRoads;
-	map<uint, Road> roads;
+    map<uint, Crossroad> crossRoads;
+    map<uint, Road> roads;
 
-	float latitude_min;
-	float longitude_min;
-	float longitude_max;
-	float latitude_max;
+    float latitude_min;
+    float longitude_min;
+    float longitude_max;
+    float latitude_max;
 
-	void readNodesFile(const std::string& fnodes);
-	void readRoadsFile(const std::string& froads);
-	void readSubRoadsFile(const std::string& fsubroads);
+    /**
+     * Reads nodes file
+     */
+    void readNodesFile(const std::string &fnodes);
 
-	GraphViewer *gv;
-	static bool instanceFlag;
-	static RoadMap* rm;
+    /**
+     * Reads roads file
+     */
+    void readRoadsFile(const std::string &froads);
 
-	RoadMap(const std::string& fnodes, const std::string& froads, const std::string& fsubroads); ///< Constructor
+    /**
+     * Reads subRoads file
+     */
+    void readSubRoadsFile(const std::string &fsubroads);
+
+    GraphViewer *gv;
+    static bool instanceFlag;
+    static RoadMap *rm;
+
+    /**
+     * Class base constructor
+     */
+    RoadMap(const std::string &fnodes, const std::string &froads, const std::string &fsubroads);
 public:
 
+    /**
+     * Shows the map on the screen
+     */
     void viewMap();
-    bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist);
-    bool insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path, list<double> &dist);
-	void insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint>&mustPass, list<uint> &path, list<double> &dist);
-	uint getCrossroadIdFromAddress(string roadName, double doorNumber);
-	double getDist(uint srcId, uint destId);
-	void visualizePath(list<uint> path);
 
-	static RoadMap* getInstance();
+    bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist);
+
+    bool insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path, list<double> &dist);
+
+    void insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint> &mustPass, list<uint> &path, list<double> &dist);
+
+    uint getCrossroadIdFromAddress(string roadName, double doorNumber);
+
+    double getDist(uint srcId, uint destId);
+
+    void visualizePath(list<uint> path);
+
+    static RoadMap *getInstance();
 
     ~RoadMap(); ///< Destructor
 };

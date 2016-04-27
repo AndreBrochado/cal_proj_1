@@ -98,7 +98,7 @@ void getDate(tm &date) {
 	} while (!validHour(date.tm_hour, date.tm_min));
 }
 
-void createRide(App &a, int offerType){
+void createRide(App &a, int rideType){
 	bool valid = false;
 	bool validID = false;
 	User* user = NULL;
@@ -149,7 +149,7 @@ void createRide(App &a, int offerType){
         dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
     }while(dest == -1);
 
-    if(offerType == 1)
+    if(rideType == 1)
         cout << "Please insert the number of free seats on your car: ";
     else
         cout << "Please insert the number of seats you are requesting: ";
@@ -178,7 +178,7 @@ void createRide(App &a, int offerType){
 	time_t arrivalTolerance = timevar *60;
 
     if(user != NULL) {
-        if (offerType == 1)
+        if (rideType == 1)
             a.addRideOffer(user, src, dest, mktime(&date), departureTolerance, arrivalTolerance, noSeats);
         else
             a.addRideRequest(user, src, dest, mktime(&date), departureTolerance, arrivalTolerance, noSeats);
