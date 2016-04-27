@@ -67,7 +67,7 @@ public:
      * @param offer Ride Offer that is being tried to match
      * @param request Ride Request that is being tried to match
      */
-    bool matchRides(RideOffer offer, RideRequest request);
+    bool matchRides(RideOffer &offer, RideRequest &request);
 
     void tryToMatchRide(Ride* newRide);
 

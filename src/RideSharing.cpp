@@ -7,23 +7,14 @@ using namespace std;
 int main(){
 
     RoadMap* rm = RoadMap::getInstance();
-   // rm->viewMap();
-    //getchar();
+    rm->viewMap();
+
+    uint cross = rm->getCrossroadIdFromAddress("Rua Orfeao do Porto", 120);
 
     string filename;
     App application;
 
-    User* user = new User("Ana","Local_1");
-
-    RideOffer* offer = new RideOffer(26016444,26016440,1462435200,3600,1800, 3, user);
-    RideRequest* request = new RideRequest(126402849,26016442,1462435200,3600,1800, 3, user);
-
-    if(application.matchRides(*offer,*request))
-        cout << "test" << endl;
-    else
-        cout << "non compatible xau" << endl;
-
-/*    ifstream test;
+   ifstream test;
 
     do{
         cout << "Introduce filename: ";
@@ -78,5 +69,5 @@ int main(){
             default:
                 return 3;
         }
-    }while(1);*/
+    }while(1);
 }

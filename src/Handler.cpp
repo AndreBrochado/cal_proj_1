@@ -122,32 +122,41 @@ void createRide(App &a, int rideType){
 
 
     do {
-        string roadName;
-        uint doorNumber;
-        RoadMap* rm = RoadMap::getInstance();
+//        string roadName;
+//        uint doorNumber;
+//        RoadMap* rm = RoadMap::getInstance();
+//
+//        cout << "Introduce the name of the street of initial location: \n";
+//        cin.ignore(10000,'\n');
+//        getline(cin,roadName);
+//        cout << roadName << "...." << endl;
+//
+//        cout << "Introduce the number of the door of initial location: \n";
+//        cin >> doorNumber;
+//        src = rm->getCrossroadIdFromAddress(roadName, doorNumber);
+        cout << "Introduce the id of inicial location: \n";
+        cin >> src;
 
-        cout << "Introduce the name of the street of initial location: \n";
-        getline(cin,roadName);
-        cin.ignore(10000,'\n');
-        cout << "Introduce the number of the door of initial location: \n";
-        cin >> doorNumber;
-        src = rm->getCrossroadIdFromAddress(roadName, doorNumber);
-    }while(src == -1);
+    }while(src == 0);
 
     //Input dest
     do {
-        string roadName;
-        uint doorNumber;
-        RoadMap* rm = RoadMap::getInstance();
-
-        cout << "Introduce the name of the street of final location: \n";
-        getline(cin,roadName);
-        cin.ignore(10000,'\n');
-        cout << "Introduce the number of the door of final location: \n";
-        cin >> doorNumber;
-
-        dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
-    }while(dest == -1);
+//        string roadName;
+//        uint doorNumber;
+//        RoadMap* rm = RoadMap::getInstance();
+//
+//        cout << "Introduce the name of the street of final location: \n";
+//        cin.ignore(10000,'\n');
+//        getline(cin,roadName);
+//        cout << roadName << "...."<< endl;
+//
+//        cout << "Introduce the number of the door of final location: \n";
+//        cin >> doorNumber;
+//
+//        dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
+        cout << "Introduce the id of final location: \n";
+        cin >> dest;
+    }while(dest == 0);
 
     if(rideType == 1)
         cout << "Please insert the number of free seats on your car: ";

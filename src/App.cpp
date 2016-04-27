@@ -124,8 +124,6 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
     uint newSrc = request.getDeparturePlace();
     uint newDest = request.getArrivalPlace();
 
-    cout << "Uau!!!!!" << endl;
-
     list<uint>::iterator itr = route.begin();
     list<double>::iterator itd = dist.begin();
 
@@ -153,9 +151,7 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
 
 }
 
-bool App::matchRides(RideOffer offer, RideRequest request){
-
-    cout << offer.getNoSeats() << " - " << request.getNoSeats() << endl;
+bool App::matchRides(RideOffer &offer, RideRequest &request){
 
     if(offer.getNoSeats() < request.getNoSeats()){
         return false;
@@ -189,13 +185,15 @@ bool App::matchRides(RideOffer offer, RideRequest request){
 
 void App::tryToMatchRide(Ride* newRide){
 
+    RoadMap* rm = RoadMap::getInstance();
+
     if (dynamic_cast<RideOffer*>(newRide) == NULL){
-        cout << "E uma request" << endl;
         RideRequest* newRequest = dynamic_cast<RideRequest*>(newRide);
         for (int i = 0; i < offers.size(); ++i) {
             RideOffer* offer = dynamic_cast<RideOffer*>(offers[i]);
             if(matchRides(*offer,*newRequest)){
-                cout << "Match found!!!";
+                cout << "Match found!!!" << endl;
+                rm->visualizePath(offer->getRoute());
                 return;
             }
         }
@@ -203,16 +201,15 @@ void App::tryToMatchRide(Ride* newRide){
 
 
     if (dynamic_cast<RideRequest*>(newRide) == NULL){
-        cout << "E uma offer" << endl;
         RideOffer* newOffer = dynamic_cast<RideOffer*>(newRide);
         for (int i = 0; i < requests.size(); ++i) {
-            cout << "Hello" << endl;
             RideRequest* request = dynamic_cast<RideRequest*>(requests[i]);
             if(matchRides(*newOffer,*request)){
                 requests.erase(requests.begin()+i);
-                cout << "Match found!!!";
+                cout << "Match found!!!" << endl;
                 return;
             }
         }
+        rm->visualizePath(newOffer->getRoute());
     }
 }
