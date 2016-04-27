@@ -283,7 +283,7 @@ bool RoadMap::insertNewDest(uint srcId, uint destId, list<uint> mustPass, list<u
     return true;
 }
 
-bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist){
+void RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist){
     list<uint> newPath;
     list<uint> mustPass = oldPath;
     uint src = oldPath.front();
@@ -307,17 +307,19 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<doub
         }
 
     }
-
-    if(!newSrcIsInPath && newSrc != src)
-        mustPass.push_back(newSrc);
-
-    //Insert newSrc in path
+    newPath.push_back(src);
     dist.clear();
     dist.push_back(0);
-    newPath.push_back(src);
 
-    insertNewSrc(src, dest, newSrc, mustPass, newPath,dist);
 
+    if(newSrc != src) {
+        if (!newSrcIsInPath)
+            mustPass.push_back(newSrc);
+
+        //Insert newSrc in path
+
+        insertNewSrc(src, dest, newSrc, mustPass, newPath, dist);
+    }
     //Check if adding newDest is needed
     bool newDestIsInPath = false;
 
@@ -343,8 +345,6 @@ bool RoadMap::bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<doub
     oldPath.clear();
 
     oldPath.insert(oldPath.end(),newPath.begin(),newPath.end());
-
-    return true;
 }
 
 uint RoadMap::getCrossroadIdFromAddress(string roadName, double doorNumber){

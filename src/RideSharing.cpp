@@ -7,19 +7,21 @@ using namespace std;
 int main(){
 
     RoadMap* rm = RoadMap::getInstance();
-    rm->viewMap();
-    getchar();
+   // rm->viewMap();
+    //getchar();
 
     string filename;
     App application;
 
     User* user = new User("Ana","Local_1");
 
-    RideOffer* offer = new RideOffer(1664454469,314074592,1462435200,3600,1800, 3, user);
-    RideRequest* request = new RideRequest(-1876576615,428215584,1462435200,3600,1800, 3, user);
+    RideOffer* offer = new RideOffer(26016444,26016440,1462435200,3600,1800, 3, user);
+    RideRequest* request = new RideRequest(126402849,26016442,1462435200,3600,1800, 3, user);
 
     if(application.matchRides(*offer,*request))
-        cout << "1" << endl;
+        cout << "test" << endl;
+    else
+        cout << "non compatible xau" << endl;
 
 /*    ifstream test;
 

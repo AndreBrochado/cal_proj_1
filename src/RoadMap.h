@@ -67,21 +67,42 @@ public:
      */
     void viewMap();
 
-    bool bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist);
+    /**
+     * Finds the best path given the current path and new 2 points
+     */
+    void bestPath(uint newSrc, uint newDest, list<uint> &oldPath, list<double> &dist);
 
+    /**
+     * Inserts the new destination to pass by on the existing path
+     */
     bool insertNewDest(uint id_src, uint id_dest, list<uint> mustPass, list<uint> &path, list<double> &dist);
 
+    /**
+     * Inserts the new point to pick-up a user to pass by on the existing path
+     */
     void insertNewSrc(uint srcId, uint destId, uint newSrc, list<uint> &mustPass, list<uint> &path, list<double> &dist);
 
+    /**
+     * Given an address and door number, returns the crossroad id
+     */
     uint getCrossroadIdFromAddress(string roadName, double doorNumber);
 
+    /**
+     * @returns the distance between two inodes
+     */
     double getDist(uint srcId, uint destId);
 
+    /**
+     * Shows the given path on the graphviewer
+     */
     void visualizePath(list<uint> path);
 
     static RoadMap *getInstance();
 
-    ~RoadMap(); ///< Destructor
+    /**
+     * Default class destructor
+     */
+    ~RoadMap();
 };
 
 #endif /* SRC_MAP_H_ */
