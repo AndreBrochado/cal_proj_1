@@ -4,7 +4,6 @@
 #include <cstdio>
 #include <string>
 #include <vector>
-//#include <windows.h>
 #include <utility>
 #include <ctime>
 #include "Exceptions.h"
