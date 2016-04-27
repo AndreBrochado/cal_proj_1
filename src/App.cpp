@@ -108,7 +108,11 @@ bool isPossible(RideOffer offer, RideRequest request,list<uint> route, list<doub
 
 }
 
-void App::matchRides(RideOffer offer, RideRequest request){
+bool App::matchRides(RideOffer offer, RideRequest request){
+
+    if(offer.getNoSeats() < request.getNoSeats())
+        return false;
+
     RoadMap* rm = RoadMap::getInstance();
 
     list<uint> newPath = offer.getRoute();
@@ -121,10 +125,15 @@ void App::matchRides(RideOffer offer, RideRequest request){
 
         for (int i = 0; i < requests.size(); ++i) {
             if(!isPossible(offer, requests[i],newPath, dist))
-                return;
+                return false;
         }
+
+        offer.decreaseNoSeats(request.getNoSeats());
 
         offer.addRequest(request);
         offer.setRoute(newPath);
+        return true;
     }
+    else
+        return false;
 }

@@ -22,6 +22,8 @@ public:
 	RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTime, time_t departureTolerance, time_t arrivalTolerance, int noSeats, User* driver);
 	virtual ~RideOffer();
 
+	void decreaseNoSeats(uint noSeats);
+
     const vector<RideRequest>& getRequests() const {
         return requests;
     }

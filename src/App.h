@@ -68,7 +68,7 @@ public:
     void addRideOffer(User *user, uint departurePlace, uint arrivalPlace, time_t departureTime,
                       time_t departureTolerance, time_t arrivalTolerance, int noSeats);
 
-    void matchRides(RideOffer offer, RideRequest request);
+    bool matchRides(RideOffer offer, RideRequest request);
 
     /**
      * Shows All Users Information

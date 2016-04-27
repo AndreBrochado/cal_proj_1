@@ -16,6 +16,10 @@ RideOffer::RideOffer(uint departurePlace, uint arrivalPlace, time_t departureTim
     this->driver = driver;
 }
 
+void RideOffer::decreaseNoSeats(uint noSeats){
+    this->noSeats -= noSeats;
+}
+
 RideOffer::~RideOffer() {
 	// TODO Auto-generated destructor stub
 }

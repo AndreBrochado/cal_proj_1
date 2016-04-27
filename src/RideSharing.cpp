@@ -16,14 +16,14 @@ int main(){
         getline(cin, filename);
         if(filename == "")
             break;
-        test.open(filename);
+        test.open(filename.c_str());
         if(!test.is_open())
             cout << "File doesn't exist!" << endl;
     }while(!test.is_open());
 
     if(filename != "") {
         try {
-            application.readData(application, filename);
+            application.readData(filename);
         } catch (FileReadingError &e) {
             cout << "Error reading file." << endl;
             return 1;
