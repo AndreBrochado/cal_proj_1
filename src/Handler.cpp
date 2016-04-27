@@ -126,6 +126,34 @@ void createRide(App &a, int offerType){
 		}
 	}while(!validID);
 
+	//Input src
+    do {
+        string roadName;
+        uint doorNumber;
+        RoadMap* rm = RoadMap::getInstance();
+        cout << "Introduce the name of the street of inicial location: \n";
+        getline(cin,roadName);
+        cin.ignore(10000,'\n');
+        cout << "Introduce the number of the door of inicial location: \n";
+        cin >> doorNumber;
+
+        src = rm->getCrossroadIdFromAddress(roadName, doorNumber);
+    }while(src == -1);
+
+    //Input dest
+    do {
+        string roadName;
+        uint doorNumber;
+        RoadMap* rm = RoadMap::getInstance();
+        cout << "Introduce the name of the street of inicial location: \n";
+        getline(cin,roadName);
+        cin.ignore(10000,'\n');
+        cout << "Introduce the number of the door of inicial location: \n";
+        cin >> doorNumber;
+
+        dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
+    }while(dest == -1);
+
     if(offerType == 1)
         cout << "Please insert the number of free seats on your car: ";
     else
@@ -155,9 +183,9 @@ void createRide(App &a, int offerType){
 	time_t arrivalTolerance = timevar *60;
 
 	if(offerType == 1)
-	    a.addRideOffer(user, src, dest, mktime(&date),departureTolerance,mktime(&date),noSeats);
+	    a.addRideOffer(user, src, dest, mktime(&date),departureTolerance,arrivalTolerance,noSeats);
     else
-        a.addRideRequest(user, src, dest, mktime(&date),departureTolerance,mktime(&date),noSeats);
+        a.addRideRequest(user, src, dest, mktime(&date),departureTolerance,arrivalTolerance,noSeats);
 
 	return;
 };
