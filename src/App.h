@@ -70,6 +70,8 @@ public:
 
     bool matchRides(RideOffer offer, RideRequest request);
 
+    void tryToMatchRide(Ride* newRide);
+
     /**
      * Shows All Users Information
      */
