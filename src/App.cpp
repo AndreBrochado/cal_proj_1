@@ -61,6 +61,8 @@ void App::readDataRides(string filename) {
     if (in.fail())
         throw FileReadingError();
 
+
+
     in.close();
 }
 
@@ -207,7 +209,6 @@ void App::tryToMatchRide(Ride* newRide){
             if(matchRides(*newOffer,*request)){
                 requests.erase(requests.begin()+i);
                 cout << "Match found!!!" << endl;
-                return;
             }
         }
         rm->visualizePath(newOffer->getRoute());

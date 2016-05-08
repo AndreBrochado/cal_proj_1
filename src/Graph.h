@@ -156,6 +156,7 @@ class Graph {
 protected:
 	vector<Vertex<T> *> vertexSet;
 	void dfs(Vertex<T> *v, vector<T> &res) const;
+	void clearVisited();
 
 	//exercicio 5
 	int numCycles;
@@ -195,8 +196,19 @@ public:
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
+
+	//Conectividade
+	Graph<T> getTranspose();
+	bool isSC();
 };
 
+template <class T>
+void Graph<T>::clearVisited(){
+	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
+	for (; it !=ite; it++)
+		(*it)->visited=false;
+}
 
 template <class T>
 int Graph<T>::getNumVertex() const {
@@ -758,5 +770,60 @@ void Graph<T>::floydWarshallShortestPath() {
 
 }
 
+
+//Conectivity
+// Function that returns reverse (or transpose) of this graph
+template<class T>
+Graph<T> Graph<T>::getTranspose()
+{
+	Graph<T> g;
+
+	for (typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin(); it != vertexSet.end(); it++)
+		g.addVertex((*it)->info);
+
+	for (typename vector<Vertex<T>*>::iterator it= vertexSet.begin(); it != vertexSet.end(); it++){
+		Vertex<T>* v = (*it);
+		T dest = (*it)->info;
+		typename vector<Edge<T> >::iterator it2= (v->adj).begin();
+		typename vector<Edge<T> >::iterator ite2= (v->adj).end();
+
+		for (; it2 !=ite2; it2++){
+			g.addEdge((*it2).dest->info,dest, it2->weight);
+		}
+	}
+
+	return g;
+}
+
+// The main function that returns true if graph is strongly connected
+template<class T>
+bool Graph<T>::isSC()
+{
+
+	// Step 1: Do DFS traversal starting from first vertex.
+	clearVisited();
+	dfsVisit(*vertexSet.begin());
+
+	// If DFS traversal doesn’t visit all vertices, then return false.
+	for (typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin(); it != vertexSet.end(); it++)
+		if(!(*it)->visited)
+			return false;
+
+	// Step 2: Create a reversed graph
+	Graph<T> gr = getTranspose();
+
+	// Step 3: Do DFS for reversed graph starting from first vertex.
+	// Staring Vertex must be same starting point of first DFS
+	gr.clearVisited();
+	gr.dfsVisit(*gr.vertexSet.begin());
+
+	// If all vertices are not visited in second DFS, then
+	// return false
+	for (typename vector<Vertex<T>*>::const_iterator it= gr.vertexSet.begin(); it != gr.vertexSet.end(); it++)
+		if(!(*it)->visited)
+			return false;
+
+	return true;
+}
 
 #endif /* GRAPH_H_ */

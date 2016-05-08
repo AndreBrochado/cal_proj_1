@@ -5,7 +5,6 @@
 using namespace std;
 
 int main(){
-
     RoadMap* rm = RoadMap::getInstance();
     rm->viewMap();
 

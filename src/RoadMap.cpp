@@ -372,6 +372,12 @@ uint RoadMap::getCrossroadIdFromAddress(string roadName, double doorNumber){
     return id;
 }
 
+bool RoadMap::validCrossroadId(uint id){
+    Crossroad c = crossRoads.find(id)->second;
+
+    return id == c.getId();
+}
+
 double RoadMap::getDist(uint srcId, uint destId){
     Crossroad src = crossRoads.find(srcId)->second;
     Crossroad dest = crossRoads.find(destId)->second;

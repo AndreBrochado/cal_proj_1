@@ -93,6 +93,11 @@ public:
     uint getCrossroadIdFromAddress(string roadName, double doorNumber);
 
     /**
+     * Given an id, checks if there is a crossroad with that id
+     */
+    bool validCrossroadId(uint id);
+
+    /**
      * @returns the distance between two inodes
      */
     double getDist(uint srcId, uint destId);

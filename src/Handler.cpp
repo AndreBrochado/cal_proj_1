@@ -105,8 +105,8 @@ void createRide(App &a, int rideType){
 	int ID;
 	int timevar;
     int noSeats;
-    //TODO: Inicialize these
     uint src, dest;
+    RoadMap* rm = RoadMap::getInstance();
 
 	do {
 		cout << "Introduce your personal ID: ";
@@ -137,7 +137,7 @@ void createRide(App &a, int rideType){
         cout << "Introduce the id of inicial location: \n";
         cin >> src;
 
-    }while(src == 0);
+    }while(!rm->validCrossroadId(src));
 
     //Input dest
     do {
@@ -156,7 +156,7 @@ void createRide(App &a, int rideType){
 //        dest = rm->getCrossroadIdFromAddress(roadName, doorNumber);
         cout << "Introduce the id of final location: \n";
         cin >> dest;
-    }while(dest == 0);
+    }while(!rm->validCrossroadId(dest));
 
     if(rideType == 1)
         cout << "Please insert the number of free seats on your car: ";
